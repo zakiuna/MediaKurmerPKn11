@@ -6,26 +6,23 @@
 <title>PKN Quest Kelas 11 - Kurikulum Merdeka</title>
 <style>
   :root {
-    /* ===== PALET WARNA BARU - TEAL & EMERALD ===== */
-    --bg-deep: #0A1929;        /* Latar belakang utama - Deep Navy */
-    --bg-surface: #0D2B2B;     /* Permukaan - Deep Teal */
-    --bg-card: rgba(13,73,73,0.35);  /* Kartu - Teal transparan */
-    --bg-card-hover: rgba(13,73,73,0.55);
-    --primary: #14B8A6;         /* Teal terang - utama */
-    --primary-dark: #0D9488;    /* Teal gelap - gradient */
-    --primary-light: #5EEAD4;   /* Teal muda - aksen */
-    --accent: #A4C24F;          /* Middle Green Yellow - aksen sekunder */
-    --accent-dark: #7A9B2E;     /* Olive dark */
-    --gold: #FBC948;            /* Golden Ochre - badge/XP */
-    --gold-dark: #DB611D;       /* Spanish Orange - CTA */
-    --success: #2ECC71;         /* Success Green */
+    --bg-deep: #0A1929;
+    --bg-surface: #0D2B2B;
+    --bg-card: rgba(13,73,73,0.35);
+    --primary: #14B8A6;
+    --primary-dark: #0D9488;
+    --primary-light: #5EEAD4;
+    --accent: #A4C24F;
+    --accent-dark: #7A9B2E;
+    --gold: #FBC948;
+    --gold-dark: #DB611D;
+    --success: #2ECC71;
     --success-dark: #27AE60;
-    --danger: #E74C3C;          /* Holiday Red */
+    --danger: #E74C3C;
     --danger-dark: #C0392B;
-    --text-primary: #F6F6E3;    /* Beige - teks utama */
-    --text-secondary: #94A3B8;  /* Slate - teks sekunder */
-    --border: rgba(20,184,166,0.3);  /* Border teal */
-    --border-gold: rgba(251,201,72,0.4);  /* Border gold */
+    --text-primary: #F6F6E3;
+    --text-secondary: #94A3B8;
+    --border: rgba(20,184,166,0.3);
   }
 
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -33,7 +30,6 @@
   body { background: linear-gradient(160deg, #0A1929 0%, #0D2B2B 50%, #0D4949 100%); color: var(--text-primary); display:flex; justify-content:center; }
   #app { width:100%; max-width:480px; min-height:100vh; position:relative; display:flex; flex-direction:column; }
 
-  /* ===== HEADER ===== */
   .header {
     padding:14px 16px;
     background: linear-gradient(135deg, rgba(10,25,41,0.9), rgba(13,43,43,0.9));
@@ -59,7 +55,6 @@
   }
   .btn-home:active { transform:scale(0.9); }
 
-  /* ===== SEMESTER ===== */
   .semester-screen { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; gap:20px; }
   .logo-pkn { text-align:center; margin-bottom:8px; }
   .logo-pkn .garuda {
@@ -88,7 +83,6 @@
   .btn-semester .t { font-size:18px; }
   .btn-semester .d { font-size:11px; font-weight:normal; opacity:.85; }
 
-  /* ===== LEVEL ===== */
   .level-screen { flex:1; padding:16px; display:flex; flex-direction:column; }
   .level-title { text-align:center; margin:10px 0 20px; }
   .level-title h2 { color: var(--primary-light); font-size:19px; }
@@ -102,6 +96,7 @@
   .level-card:active { transform:scale(.98); }
   .level-card.locked { opacity:.5; border-color:#334155; cursor:not-allowed; }
   .level-card.done { border-color: var(--success); background: rgba(46,204,113,0.12); }
+  .level-card.read { border-color: var(--primary); background: rgba(20,184,166,0.15); }
   .level-num {
     width:52px; height:52px; border-radius:50%; flex-shrink:0;
     background: linear-gradient(135deg, var(--primary), var(--primary-dark));
@@ -116,7 +111,6 @@
   .level-info .stars { font-size:12px; margin-top:4px; color: var(--gold); }
   .lock-icon { font-size:20px; }
 
-  /* ===== MATERI ===== */
   .materi-screen { flex:1; padding:16px; display:flex; flex-direction:column; }
   .materi-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; gap:10px; }
   .materi-badge {
@@ -124,7 +118,7 @@
     background: rgba(20,184,166,0.15); border:1px solid var(--primary);
     border-radius:20px; font-size:11px; color: var(--primary-light); font-weight:bold;
   }
-  .materi-scroll { flex:1; overflow-y:auto; padding-bottom:100px; }
+  .materi-scroll { flex:1; overflow-y:auto; padding-bottom:180px; }
   .materi-hero {
     text-align:center; padding:20px 16px; margin-bottom:16px;
     background: linear-gradient(135deg, rgba(20,184,166,0.15), rgba(13,73,73,0.3));
@@ -181,13 +175,33 @@
   }
   .materi-highlight b { color:#fff; }
 
-  .btn-start-quiz {
-    position:sticky; bottom:0; margin:16px auto 0; display:block; width:100%; max-width:380px;
-    padding:18px; border:none; border-radius:30px; font-size:16px; font-weight:bold;
-    color:#fff; background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    box-shadow: 0 8px 24px rgba(20,184,166,0.5); cursor:pointer; transition: transform .15s;
+  /* ===== DUAL ACTION BUTTONS ===== */
+  .materi-actions {
+    position: sticky; bottom: 0; margin: 16px auto 0;
+    display: flex; flex-direction: column; gap: 10px;
+    width: 100%; max-width: 400px;
+    padding-top: 12px;
+    background: linear-gradient(to top, rgba(10,25,41,0.95) 60%, rgba(10,25,41,0));
   }
-  .btn-start-quiz:active { transform:scale(.97); }
+  .btn-done-read {
+    padding:16px; border:none; border-radius:30px; font-size:15px; font-weight:bold;
+    color:#fff; background: linear-gradient(135deg, var(--success), var(--success-dark));
+    box-shadow: 0 8px 22px rgba(46,204,113,0.5); cursor:pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: transform .15s;
+  }
+  .btn-done-read:active { transform: scale(.97); }
+  .btn-done-read.completed { background: linear-gradient(135deg, #475569, #334155); box-shadow: 0 8px 22px rgba(51,65,85,0.4); }
+
+  .btn-start-quiz {
+    padding:14px; border:2px solid var(--border); border-radius:30px;
+    font-size:14px; font-weight:bold; color: var(--primary-light);
+    background: rgba(20,184,166,0.08); cursor:pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: transform .15s;
+  }
+  .btn-start-quiz:active { transform: scale(.97); }
+  .btn-start-quiz .hint { font-size: 10px; opacity: 0.7; font-weight: normal; }
 
   /* ===== QUIZ ===== */
   .quiz-screen { flex:1; padding:16px; display:flex; flex-direction:column; }
@@ -227,7 +241,6 @@
   .option-btn.wrong { border-color: var(--danger); background: rgba(231,76,60,0.25); }
   .option-btn:disabled { cursor:default; }
 
-  /* ===== FEEDBACK OVERLAY ===== */
   .feedback-overlay {
     position:fixed; inset:0; z-index:100; display:none;
     align-items:center; justify-content:center; flex-direction:column;
@@ -255,7 +268,6 @@
   }
   .btn-next:active { transform:scale(.96); }
 
-  /* ===== REWARD ===== */
   .reward-screen { flex:1; display:none; flex-direction:column; align-items:center; justify-content:center; padding:24px; text-align:center; gap:16px; }
   .reward-screen.show { display:flex; }
   .reward-badge {
@@ -273,7 +285,6 @@
     border-radius:12px; padding:12px 20px; font-size:14px; color: var(--gold); font-weight:bold;
   }
 
-  /* ===== BADGE PANEL ===== */
   .badge-panel {
     position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto;
     background: rgba(10,25,41,0.95); backdrop-filter: blur(12px);
@@ -331,7 +342,7 @@
       <span class="d">Bab 4 - Bab 6 (Level 4-6)</span>
     </button>
     <div style="font-size:11px;color:#64748B;text-align:center;margin-top:8px;">
-      Selesaikan tiap bab untuk mengumpulkan badge Pancasila 🛡️
+      📖 Baca materi → buka level berikutnya • 🎯 Kuis opsional untuk badge tambahan
     </div>
   </div>
 
@@ -341,7 +352,7 @@
     </div>
     <div class="level-title">
       <h2 id="levelScreenTitle">Semester 1</h2>
-      <p id="levelScreenSub">Pilih bab untuk memulai kuis</p>
+      <p id="levelScreenSub">Pilih bab untuk membaca materi</p>
     </div>
     <div class="level-list" id="levelList"></div>
   </div>
@@ -352,7 +363,14 @@
       <div class="materi-badge" id="materiBadge">📖 Materi</div>
     </div>
     <div class="materi-scroll" id="materiScroll"></div>
-    <button class="btn-start-quiz" id="btnStartQuiz">▶ Mulai Kuis (10 Soal)</button>
+    <div class="materi-actions">
+      <button class="btn-done-read" id="btnDoneRead">
+        ✓ Selesai Membaca Materi
+      </button>
+      <button class="btn-start-quiz" id="btnStartQuiz">
+        🎯 Mulai Kuis <span class="hint">(opsional - 10 soal)</span>
+      </button>
+    </div>
   </div>
 
   <div class="quiz-screen hidden" id="quizScreen">
@@ -402,7 +420,7 @@
 const MATERI = {
   1: { semester:1, bab:"BAB 1", nama:"Pancasila sebagai Ideologi Terbuka", icon:"🦅",
     materi: {
-      pengantar: "Pada kelas 11, kita mempelajari Pancasila pada tataran yang lebih mendalam — bukan hanya sejarahnya, tetapi bagaimana Pancasila berfungsi sebagai <b>ideologi terbuka</b> yang dinamis, mampu menjawab tantangan zaman, namun tetap kokoh pada nilai-nilainya.",
+      pengantar: "Pada kelas 11, kita mempelajari Pancasila pada tataran yang lebih mendalam — bagaimana Pancasila berfungsi sebagai <b>ideologi terbuka</b> yang dinamis, mampu menjawab tantangan zaman, namun tetap kokoh pada nilai-nilainya.",
       bagian: [
         { judul:"A. Pengertian dan Ciri Ideologi Terbuka", body:`
           <p><b>Ideologi</b> berasal dari kata <i>idea</i> (gagasan) dan <i>logos</i> (ilmu). Ideologi adalah kumpulan gagasan, nilai, dan keyakinan yang menjadi dasar cara berpikir dan bertindak.</p>
@@ -466,7 +484,7 @@ const MATERI = {
           <div class="box green"><b>💚 Refleksi:</b> Justru di era globalisasi, Pancasila menjadi penuntun agar kita tetap menjadi bangsa Indonesia yang berkarakter.</div>
         `}
       ],
-      highlight: "💡 <b>Rangkuman:</b> Pancasila adalah ideologi terbuka — nilai dasarnya tetap, tetapi pengamalannya dinamis. Terdiri dari 3 tingkatan nilai: dasar, instrumental, dan praksis. Berperan sebagai filter, perekat, kompas, dan identitas bangsa."
+      highlight: "💡 <b>Rangkuman:</b> Pancasila adalah ideologi terbuka — nilai dasarnya tetap, tetapi pengamalannya dinamis. Terdiri dari 3 tingkatan nilai: dasar, instrumental, dan praksis."
     },
     soal:[
       { q:"Menurut Frans Magnis Suseno, salah satu ciri ideologi terbuka adalah...", o:["Bersifat kaku","Nilainya berasal dari masyarakat sendiri","Dipaksakan dari luar","Tidak boleh ditafsirkan ulang"], a:1, e:"Ideologi terbuka bersumber dari masyarakat sendiri." },
@@ -484,14 +502,14 @@ const MATERI = {
 
   2: { semester:1, bab:"BAB 2", nama:"Konstitusi dan Dinamika UUD NRI 1945", icon:"📜",
     materi: {
-      pengantar: "Konstitusi adalah hukum dasar yang mengatur penyelenggaraan negara. Di Indonesia, konstitusi tertulis adalah <b>UUD NRI 1945</b>. Sejak 1945, Indonesia pernah mengalami beberapa periode konstitusi — mulai dari UUD 1945, Konstitusi RIS, UUDS 1950, hingga kembali ke UUD 1945.",
+      pengantar: "Konstitusi adalah hukum dasar yang mengatur penyelenggaraan negara. Di Indonesia, konstitusi tertulis adalah <b>UUD NRI 1945</b>. Sejak 1945, Indonesia pernah mengalami beberapa periode konstitusi.",
       bagian: [
         { judul:"A. Pengertian Konstitusi", body:`
           <p><b>Konstitusi</b> (dari bahasa Latin <i>constituere</i>) berarti "membentuk" atau "menyusun". Dalam arti luas, konstitusi adalah keseluruhan aturan dasar, baik tertulis maupun tidak tertulis, yang mengatur penyelenggaraan negara.</p>
           <p><b>Klasifikasi konstitusi:</b></p>
           <ul>
-            <li><b>Tertulis (UUD)</b> — dikodifikasikan dalam satu naskah. Contoh: UUD NRI 1945.</li>
-            <li><b>Tidak tertulis (konvensi)</b> — kebiasaan ketatanegaraan. Contoh: pidato kenegaraan Presiden setiap 16 Agustus.</li>
+            <li><b>Tertulis (UUD)</b> — dikodifikasikan dalam satu naskah.</li>
+            <li><b>Tidak tertulis (konvensi)</b> — kebiasaan ketatanegaraan.</li>
           </ul>
           <p><b>Fungsi konstitusi:</b></p>
           <ul>
@@ -541,7 +559,7 @@ const MATERI = {
           <div class="box green"><b>💚 Refleksi:</b> Amandemen UUD 1945 menunjukkan bahwa konstitusi Indonesia bersifat hidup — dapat berubah seiring kebutuhan zaman.</div>
         `}
       ],
-      highlight: "💡 <b>Rangkuman:</b> Konstitusi adalah hukum dasar tertinggi. Indonesia pernah memakai UUD 1945, Konstitusi RIS, UUDS 1950, lalu kembali UUD 1945 (Dekrit 5 Juli 1959). Diamandemen 4 kali (1999-2002) pada era Reformasi."
+      highlight: "💡 <b>Rangkuman:</b> Konstitusi adalah hukum dasar tertinggi. Indonesia pernah memakai UUD 1945, Konstitusi RIS, UUDS 1950, lalu kembali UUD 1945 (Dekrit 5 Juli 1959). Diamandemen 4 kali (1999-2002)."
     },
     soal:[
       { q:"Konstitusi tertulis Indonesia adalah...", o:["Pancasila","UUD NRI 1945","TAP MPR","UU"], a:1, e:"UUD NRI 1945 adalah konstitusi tertulis Indonesia." },
@@ -549,7 +567,7 @@ const MATERI = {
       { q:"Penyebab utama Dekrit Presiden 5 Juli 1959 adalah...", o:["Konstituante gagal menyusun UUD","Pemilu gagal","PKI memberontak","Belanda menyerang"], a:0, e:"Konstituante gagal menyusun UUD baru." },
       { q:"Amandemen UUD 1945 dilakukan sebanyak...", o:["2 kali","3 kali","4 kali","5 kali"], a:2, e:"Amandemen dilakukan 4 kali (1999-2002)." },
       { q:"Lembaga yang berwenang menguji UU terhadap UUD adalah...", o:["MA","MK","KY","DPR"], a:1, e:"Mahkamah Konstitusi (MK) menguji UU terhadap UUD." },
-      { q:"Masa jabatan Presiden menurut Pasal 7 UUD 1945 adalah...", o:["5 tahun, bisa dipilih kembali tanpa batas","5 tahun, maksimal 2 periode","4 tahun, maksimal 2 periode","6 tahun, maksimal 1 periode"], a:1, e:"Pasal 7: Presiden menjabat 5 tahun dan dapat dipilih kembali untuk 1 kali masa jabatan." },
+      { q:"Masa jabatan Presiden menurut Pasal 7 UUD 1945 adalah...", o:["5 tahun, bisa dipilih kembali tanpa batas","5 tahun, maksimal 2 periode","4 tahun, maksimal 2 periode","6 tahun, maksimal 1 periode"], a:1, e:"Pasal 7: Presiden menjabat 5 tahun dan dapat dipilih kembali 1 kali." },
       { q:"Konstitusi yang sempat berlaku di Indonesia setelah UUD 1945 dan RIS adalah...", o:["UUD 1945","UUDS 1950","Konstitusi RIS","Konstitusi Federal"], a:1, e:"UUDS 1950 berlaku 17 Agustus 1950 – 5 Juli 1959." },
       { q:"Kesepakatan dasar dalam amandemen UUD 1945 adalah tidak mengubah...", o:["Pasal 1","Batang tubuh","Pembukaan UUD 1945","Pasal 37"], a:2, e:"Pembukaan UUD 1945 tidak boleh diubah dalam amandemen." },
       { q:"Lembaga baru hasil amandemen UUD 1945 adalah...", o:["DPR","MPR","MK, KY, dan DPD","Presiden"], a:2, e:"MK, KY, dan DPD adalah lembaga baru hasil amandemen." },
@@ -559,7 +577,7 @@ const MATERI = {
 
   3: { semester:1, bab:"BAB 3", nama:"Sistem Hukum dan Peradilan di Indonesia", icon:"⚖️",
     materi: {
-      pengantar: "Hukum adalah pedoman hidup bermasyarakat yang mengatur perilaku manusia agar tercipta ketertiban dan keadilan. Indonesia sebagai negara hukum memiliki sistem hukum yang khas — perpaduan hukum adat, hukum Islam, dan hukum Barat (Belanda) — serta lembaga peradilan yang berfungsi menegakkan hukum.",
+      pengantar: "Hukum adalah pedoman hidup bermasyarakat yang mengatur perilaku manusia agar tercipta ketertiban dan keadilan. Indonesia sebagai negara hukum memiliki sistem hukum yang khas.",
       bagian: [
         { judul:"A. Pengertian dan Unsur Hukum", body:`
           <p><b>Hukum</b> menurut <b>Van Kan</b> adalah keseluruhan peraturan hidup yang bersifat memaksa untuk melindungi kepentingan manusia dalam masyarakat.</p>
@@ -579,7 +597,7 @@ const MATERI = {
         `},
         { judul:"B. Sistem Hukum Indonesia", body:`
           <p>Indonesia menganut <b>sistem hukum campuran</b> (mixed legal system) — perpaduan dari tiga sistem hukum:</p>
-          <p><b>1. Hukum Adat</b><br>Hukum tidak tertulis yang tumbuh dalam masyarakat Indonesia. Berlaku untuk suku-suku tertentu.</p>
+          <p><b>1. Hukum Adat</b><br>Hukum tidak tertulis yang tumbuh dalam masyarakat Indonesia.</p>
           <p><b>2. Hukum Islam</b><br>Bersumber dari Al-Qur'an, Hadis, dan Ijtihad. Berlaku bagi umat Islam di bidang tertentu.</p>
           <p><b>3. Hukum Barat (Eropa Kontinental)</b><br>Dibawa Belanda saat menjajah. Bersumber dari KUHP, KUHPerdata, dan KUHAP.</p>
           <p><b>Klasifikasi hukum:</b></p>
@@ -604,7 +622,7 @@ const MATERI = {
             <li>Memutus perselisihan hasil pemilu.</li>
             <li>Memutus pembubaran partai politik.</li>
           </ul>
-          <div class="box"><b>Asas peradilan:</b><br>1. <b>Independen</b><br>2. <b>Tidak memihak</b><br>3. <b>Terbuka untuk umum</b><br>4. <b>Cepat, sederhana, biaya ringan</b><br>5. <b>Hakim aktif</b></div>
+          <div class="box"><b>Asas peradilan:</b> independen, tidak memihak, terbuka untuk umum, cepat-sederhana-biaya ringan, dan hakim aktif.</div>
         `},
         { judul:"D. Peran Warga dalam Penegakan Hukum", body:`
           <p>Hukum tidak akan tegak tanpa partisipasi warga negara. Peran kita:</p>
@@ -636,7 +654,7 @@ const MATERI = {
 
   4: { semester:2, bab:"BAB 4", nama:"Hak Asasi Manusia (HAM)", icon:"🕊️",
     materi: {
-      pengantar: "Hak Asasi Manusia (HAM) adalah hak dasar yang melekat pada setiap manusia sejak lahir, tidak dapat dicabut, dan wajib dihormati oleh siapa pun. Memahami HAM penting agar kita menjadi warga negara yang menghargai martabat manusia dan mampu memperjuangkan keadilan.",
+      pengantar: "Hak Asasi Manusia (HAM) adalah hak dasar yang melekat pada setiap manusia sejak lahir, tidak dapat dicabut, dan wajib dihormati oleh siapa pun.",
       bagian: [
         { judul:"A. Pengertian dan Ciri HAM", body:`
           <p><b>HAM</b> adalah hak dasar atau hak pokok yang dimiliki manusia sejak lahir sebagai anugerah Tuhan Yang Maha Esa.</p>
@@ -659,31 +677,12 @@ const MATERI = {
         `},
         { judul:"B. Jenis-Jenis HAM", body:`
           <p>Menurut UU No. 39 Tahun 1999 tentang HAM, hak asasi manusia dikelompokkan menjadi:</p>
-          <p><b>1. Hak Asasi Pribadi (Personal Rights)</b></p>
-          <ul>
-            <li>Hak hidup, hak kemerdekaan, hak kebebasan berpendapat.</li>
-            <li>Hak kebebasan beragama.</li>
-          </ul>
-          <p><b>2. Hak Asasi Ekonomi (Property Rights)</b></p>
-          <ul>
-            <li>Hak memiliki, membeli, menjual.</li>
-            <li>Hak mendapatkan pekerjaan yang layak.</li>
-          </ul>
-          <p><b>3. Hak Asasi Politik (Political Rights)</b></p>
-          <ul>
-            <li>Hak ikut serta dalam pemerintahan.</li>
-            <li>Hak memilih dan dipilih dalam pemilu.</li>
-          </ul>
-          <p><b>4. Hak Asasi Hukum (Legal Equality Rights)</b></p>
-          <ul>
-            <li>Hak mendapat perlakuan sama di depan hukum.</li>
-          </ul>
-          <p><b>5. Hak Asasi Sosial Budaya (Social & Cultural Rights)</b></p>
-          <ul>
-            <li>Hak mendapat pendidikan.</li>
-            <li>Hak mengembangkan budaya.</li>
-          </ul>
-          <p><b>6. Hak Asasi Tata Cara Peradilan (Procedural Rights)</b></p>
+          <p><b>1. Hak Asasi Pribadi (Personal Rights)</b> — hak hidup, kebebasan berpendapat, kebebasan beragama.</p>
+          <p><b>2. Hak Asasi Ekonomi (Property Rights)</b> — hak memiliki, membeli, menjual, pekerjaan layak.</p>
+          <p><b>3. Hak Asasi Politik (Political Rights)</b> — hak ikut pemerintahan, memilih dan dipilih.</p>
+          <p><b>4. Hak Asasi Hukum (Legal Equality Rights)</b> — perlakuan sama di depan hukum.</p>
+          <p><b>5. Hak Asasi Sosial Budaya (Social & Cultural Rights)</b> — pendidikan, budaya, kesehatan.</p>
+          <p><b>6. Hak Asasi Tata Cara Peradilan (Procedural Rights)</b> — keadilan dalam peradilan.</p>
         `},
         { judul:"C. HAM dalam UUD NRI 1945", body:`
           <p>Setelah amandemen, UUD 1945 memuat HAM secara lebih rinci pada <b>Pasal 28A–28J</b>:</p>
@@ -719,10 +718,10 @@ const MATERI = {
             <li><b>Membuat peraturan</b>: UU No. 39/1999, UU No. 26/2000.</li>
             <li><b>Pendidikan HAM</b>.</li>
           </ul>
-          <div class="box green"><b>💚 Peran Pelajar:</b><br>• Tidak melakukan perundungan.<br>• Menghormati hak teman.<br>• Berani melaporkan kekerasan.<br>• Tidak menyebar hoaks.</div>
+          <div class="box green"><b>💚 Peran Pelajar:</b> Tidak melakukan perundungan, menghormati hak teman, berani melaporkan kekerasan, tidak menyebar hoaks.</div>
         `}
       ],
-      highlight: "💡 <b>Rangkuman:</b> HAM adalah hak dasar melekat sejak lahir. Terbagi menjadi 6 jenis. Diatur dalam Pasal 28A–28J UUD 1945. Dilindungi oleh Komnas HAM, Pengadilan HAM, dan UU No. 39/1999. Setiap HAM selalu diikuti kewajiban menghormati HAM orang lain."
+      highlight: "💡 <b>Rangkuman:</b> HAM adalah hak dasar melekat sejak lahir. Terbagi menjadi 6 jenis. Diatur dalam Pasal 28A–28J UUD 1945. Dilindungi oleh Komnas HAM, Pengadilan HAM, dan UU No. 39/1999."
     },
     soal:[
       { q:"HAM adalah hak yang melekat pada manusia sejak...", o:["Lahir","Sekolah","Dewasa","Menikah"], a:0, e:"HAM melekat sejak lahir sebagai anugerah Tuhan." },
@@ -740,7 +739,7 @@ const MATERI = {
 
   5: { semester:2, bab:"BAB 5", nama:"Demokrasi Pancasila", icon:"🗳️",
     materi: {
-      pengantar: "Demokrasi adalah pemerintahan dari rakyat, oleh rakyat, dan untuk rakyat. Indonesia menganut <b>Demokrasi Pancasila</b> — demokrasi yang berlandaskan nilai-nilai Pancasila. Demokrasi bukan hanya soal pemilu, tetapi juga budaya musyawarah, menghargai pendapat, dan mengutamakan kepentingan bersama.",
+      pengantar: "Demokrasi adalah pemerintahan dari rakyat, oleh rakyat, dan untuk rakyat. Indonesia menganut <b>Demokrasi Pancasila</b> — demokrasi yang berlandaskan nilai-nilai Pancasila.",
       bagian: [
         { judul:"A. Pengertian Demokrasi", body:`
           <p><b>Demokrasi</b> berasal dari bahasa Yunani: <i>demos</i> (rakyat) dan <i>kratos</i> (kekuasaan). Jadi demokrasi berarti <b>kekuasaan oleh rakyat</b>.</p>
@@ -782,7 +781,7 @@ const MATERI = {
           <p><b>1. Demokrasi Liberal (1950–1959)</b><br>Menggunakan UUDS 1950 dengan sistem parlementer. Sering terjadi pergantian kabinet.</p>
           <p><b>2. Demokrasi Terpimpin (1959–1965)</b><br>Setelah Dekrit 5 Juli 1959, Soekarno memimpin dengan kekuasaan besar. Demokrasi cenderung otoriter.</p>
           <p><b>3. Demokrasi Pancasila Orde Baru (1966–1998)</b><br>Secara formal Demokrasi Pancasila, tetapi praktiknya otoriter.</p>
-          <p><b>4. Demokrasi Reformasi (1998–sekarang)</b><br>Demokrasi lebih terbuka:</p>
+          <p><b>4. Demokrasi Reformasi (1998–sekarang)</b></p>
           <ul>
             <li>Pemilu langsung Presiden (sejak 2004).</li>
             <li>Kebebasan pers dan berpendapat.</li>
@@ -809,7 +808,7 @@ const MATERI = {
             <li>Ikut musyawarah RT/RW.</li>
             <li>Menolak politik uang dan berita hoaks.</li>
           </ul>
-          <div class="box green"><b>💚 Nilai Demokrasi Pancasila:</b><br>1. Menghargai perbedaan pendapat.<br>2. Mengutamakan musyawarah.<br>3. Tidak memaksakan kehendak.<br>4. Bertanggung jawab atas keputusan bersama.</div>
+          <div class="box green"><b>💚 Nilai Demokrasi Pancasila:</b> Menghargai perbedaan pendapat, mengutamakan musyawarah, tidak memaksakan kehendak, bertanggung jawab atas keputusan bersama.</div>
         `}
       ],
       highlight: "💡 <b>Rangkuman:</b> Demokrasi = pemerintahan dari, oleh, dan untuk rakyat. Indonesia menganut Demokrasi Pancasila yang menekankan musyawarah, HAM, dan kepentingan bersama. Asas Pemilu: LUBER JURDIL."
@@ -830,13 +829,13 @@ const MATERI = {
 
   6: { semester:2, bab:"BAB 6", nama:"Wawasan Nusantara & Ketahanan Nasional", icon:"🛡️",
     materi: {
-      pengantar: "Indonesia adalah negara kepulauan terbesar di dunia dengan 17.000+ pulau. Untuk menjaga keutuhan dan kedaulatannya, Indonesia memiliki konsep <b>Wawasan Nusantara</b> dan <b>Ketahanan Nasional</b>. Keduanya menjadi fondasi keutuhan NKRI.",
+      pengantar: "Indonesia adalah negara kepulauan terbesar di dunia dengan 17.000+ pulau. Untuk menjaga keutuhan dan kedaulatannya, Indonesia memiliki konsep <b>Wawasan Nusantara</b> dan <b>Ketahanan Nasional</b>.",
       bagian: [
         { judul:"A. Wawasan Nusantara", body:`
           <p><b>Wawasan Nusantara</b> adalah cara pandang bangsa Indonesia terhadap diri dan lingkungannya berdasarkan Pancasila dan UUD 1945, yang menekankan persatuan dan kesatuan wilayah, ideologi, politik, ekonomi, sosial-budaya, serta pertahanan-keamanan.</p>
           <p><b>Hakikat Wawasan Nusantara:</b></p>
           <ul>
-            <li><b>Kesatuan wilayah</b> — laut, darat, dan udara merupakan satu kesatuan.</li>
+            <li><b>Kesatuan wilayah</b> — laut, darat, dan udara satu kesatuan.</li>
             <li><b>Kesatuan bangsa</b>.</li>
             <li><b>Kesatuan ideologi</b> — Pancasila.</li>
             <li><b>Kesatuan politik, ekonomi, sosial-budaya, dan hankam</b>.</li>
@@ -854,7 +853,7 @@ const MATERI = {
           <div class="box blue"><b>Konsep Negara Kepulauan:</b> Indonesia adalah satu-satunya negara kepulauan yang diakui dunia berdasarkan UNCLOS 1982.</div>
         `},
         { judul:"B. Ketahanan Nasional", body:`
-          <p><b>Ketahanan Nasional</b> (Tannas) adalah kondisi dinamis bangsa Indonesia yang meliputi ketangguhan, keuletan, dan kemampuan menghadapi segala ancaman, tantangan, hambatan, dan gangguan (ATHG) yang datang dari dalam maupun luar negeri.</p>
+          <p><b>Ketahanan Nasional</b> (Tannas) adalah kondisi dinamis bangsa Indonesia yang meliputi ketangguhan, keuletan, dan kemampuan menghadapi segala ancaman, tantangan, hambatan, dan gangguan (ATHG) dari dalam maupun luar negeri.</p>
           <p><b>Tujuan Ketahanan Nasional:</b></p>
           <ul>
             <li>Menjaga keutuhan wilayah NKRI.</li>
@@ -893,7 +892,7 @@ const MATERI = {
             <li><b>Sosial-Budaya</b>: narkoba, pergaulan bebas.</li>
             <li><b>Teknologi</b>: kejahatan siber, pencurian data.</li>
           </ul>
-          <div class="box red"><b>⚠️ ATHG:</b><br><b>A</b>ncaman, <b>T</b>antangan, <b>H</b>ambatan, <b>G</b>angguan.</div>
+          <div class="box red"><b>⚠️ ATHG:</b> Ancaman, Tantangan, Hambatan, Gangguan.</div>
         `},
         { judul:"D. Peran Warga dalam Menjaga Ketahanan Nasional", body:`
           <p>Ketahanan Nasional adalah tanggung jawab seluruh rakyat. Warga negara berperan melalui:</p>
@@ -922,7 +921,7 @@ const MATERI = {
             <li>Mengikuti kegiatan bela negara.</li>
             <li>Menjaga kerukunan antarwarga.</li>
           </ul>
-          <div class="box green"><b>💚 Refleksi:</b> Ketahanan Nasional dimulai dari hal-hal kecil: disiplin, cinta produk dalam negeri, tidak menyebar hoaks. Kita semua adalah penjaga NKRI.</div>
+          <div class="box green"><b>💚 Refleksi:</b> Ketahanan Nasional dimulai dari hal-hal kecil: disiplin, cinta produk dalam negeri, tidak menyebar hoaks.</div>
         `}
       ],
       highlight: "💡 <b>Rangkuman:</b> Wawasan Nusantara = cara pandang bangsa terhadap diri & lingkungan demi persatuan. Dasar: Deklarasi Djuanda 1957 & UNCLOS 1982. Ketahanan Nasional = kemampuan bangsa menghadapi ATHG, mencakup Trigatra & Pancagatra."
@@ -944,7 +943,19 @@ const MATERI = {
 
 const TOTAL_BADGE = 6;
 
-let state = { unlockedLevel:1, completed:{}, badges:0, currentSemester:1, currentLevel:1, currentQ:0, correctCount:0, wrongThisLevel:0, answered:false };
+/* STATE — Sistem baru: unlock berdasarkan BACA materi, kuis opsional */
+let state = {
+  unlockedLevel: 1,
+  read: {},        // level yang sudah selesai dibaca → untuk UNLOCK
+  completed: {},   // level yang sudah selesai kuis → untuk badge tambahan
+  badges: 0,
+  currentSemester: 1,
+  currentLevel: 1,
+  currentQ: 0,
+  correctCount: 0,
+  wrongThisLevel: 0,
+  answered: false
+};
 
 function saveState() { try { localStorage.setItem('pknQuestKelas11', JSON.stringify(state)); } catch(e){} }
 function loadState() {
@@ -953,6 +964,7 @@ function loadState() {
     if (raw) {
       const d = JSON.parse(raw);
       state.unlockedLevel = d.unlockedLevel || 1;
+      state.read = d.read || {};
       state.completed = d.completed || {};
       state.badges = d.badges || 0;
     }
@@ -1000,6 +1012,9 @@ function selectSemester(sem) {
   showScreen('level');
 }
 
+/* ============================================================
+   RENDER LEVELS — status: read (dibaca) vs done (kuis selesai)
+   ============================================================ */
 function renderLevels() {
   const list = el('levelList');
   list.innerHTML = '';
@@ -1007,18 +1022,32 @@ function renderLevels() {
   const end = state.currentSemester === 1 ? 3 : 6;
   for (let lv = start; lv <= end; lv++) {
     const m = MATERI[lv];
-    const done = !!state.completed[lv];
+    const isRead = !!state.read[lv];
+    const isDone = !!state.completed[lv];
     const locked = lv > state.unlockedLevel;
+
+    let cls = 'level-card';
+    if (locked) cls += ' locked';
+    else if (isDone) cls += ' done';
+    else if (isRead) cls += ' read';
+
+    let statusText;
+    let icon;
+    if (locked) { statusText = 'Terkunci - baca bab sebelumnya'; icon = '🔒'; }
+    else if (isDone) { statusText = '⭐ Materi dibaca + Kuis selesai'; icon = '✅'; }
+    else if (isRead) { statusText = '📖 Sudah dibaca • Kuis opsional'; icon = '📖'; }
+    else { statusText = '📖 Baca materi untuk membuka level'; icon = '➜'; }
+
     const card = document.createElement('div');
-    card.className = 'level-card' + (locked ? ' locked' : '') + (done ? ' done' : '');
+    card.className = cls;
     card.innerHTML = `
       <div class="level-num">${locked ? '🔒' : lv}</div>
       <div class="level-info">
         <div class="bab">${m.bab}</div>
         <div class="name">${m.nama}</div>
-        <div class="stars">${done ? '⭐ Selesai • Badge diperoleh' : (locked ? 'Terkunci' : '📖 Baca materi & 10 soal kuis')}</div>
+        <div class="stars">${statusText}</div>
       </div>
-      <div class="lock-icon">${done ? '✅' : (locked ? '🔒' : '➜')}</div>
+      <div class="lock-icon">${icon}</div>
     `;
     if (!locked) card.addEventListener('click', () => openMateri(lv));
     list.appendChild(card);
@@ -1063,14 +1092,59 @@ function openMateri(lv) {
   html += `
     <div class="materi-highlight">${mat.highlight}</div>
     <div style="text-align:center;font-size:11px;color:#64748B;margin-top:8px;">
-      Baca materi dengan teliti sebelum memulai kuis 👇
+      Setelah selesai membaca, klik tombol <b style="color:#2ECC71;">✓ Selesai Membaca</b> untuk membuka level berikutnya 👇
     </div>
   `;
   sc.innerHTML = html;
   sc.scrollTop = 0;
+
+  // Update tombol "Selesai Membaca" sesuai status
+  const btnDone = el('btnDoneRead');
+  if (state.read[lv]) {
+    btnDone.textContent = '✓ Sudah Dibaca';
+    btnDone.classList.add('completed');
+  } else {
+    btnDone.innerHTML = '✓ Selesai Membaca Materi';
+    btnDone.classList.remove('completed');
+  }
+
   showScreen('materi');
 }
 
+/* ============================================================
+   SELESAI MEMBACA → UNLOCK LEVEL BERIKUTNYA
+   ============================================================ */
+el('btnDoneRead').addEventListener('click', () => {
+  const lv = state.currentLevel;
+  const firstRead = !state.read[lv];
+  state.read[lv] = true;
+
+  // Unlock level berikutnya
+  if (lv + 1 > state.unlockedLevel && lv + 1 <= TOTAL_BADGE) {
+    state.unlockedLevel = lv + 1;
+  }
+
+  // Award badge kalau baru pertama kali dibaca (dan belum pernah dapat badge dari level ini)
+  if (firstRead && !state.completed[lv]) {
+    state.badges = Math.min(TOTAL_BADGE, state.badges + 1);
+  }
+  saveState();
+
+  showToast(firstRead ? '📖 Selesai membaca! Badge +1 & Level berikutnya terbuka' : '📖 Materi sudah dibaca');
+
+  // Pindah ke reward screen
+  el('rewardBadgeIcon').textContent = firstRead ? '🛡️' : '📖';
+  el('rewardTitle').textContent = firstRead ? 'SELESAI MEMBACA!' : 'Sudah Dibaca';
+  el('rewardText').textContent = firstRead
+    ? `Materi ${MATERI[lv].bab} selesai dibaca. Level berikutnya sudah terbuka! Kamu juga mendapat Badge Pancasila. Kuis opsional untuk menguji pemahaman.`
+    : `Kamu sudah pernah membaca materi ini. Level berikutnya sudah terbuka sebelumnya.`;
+  el('badgeCountText').textContent = `Badge Pancasila: ${state.badges}/${TOTAL_BADGE}`;
+  showScreen('reward');
+});
+
+/* ============================================================
+   QUIZ (OPSIONAL)
+   ============================================================ */
 el('btnStartQuiz').addEventListener('click', () => { startQuiz(state.currentLevel); });
 
 function startQuiz(lv) {
@@ -1083,7 +1157,7 @@ function startQuiz(lv) {
   el('headerSub').textContent = MATERI[lv].bab + ' - ' + MATERI[lv].nama;
   showScreen('quiz');
   renderQuestion();
-  showToast('🎯 Kuis dimulai! 10 soal');
+  showToast('🎯 Kuis opsional dimulai! 10 soal');
 }
 
 function renderQuestion() {
@@ -1218,22 +1292,33 @@ function handleFeedbackNext() {
   else finishLevel();
 }
 
+/* ============================================================
+   FINISH QUIZ → BONUS BADGE (opsional, kuis tidak diperlukan unlock)
+   ============================================================ */
 function finishLevel() {
   const lv = state.currentLevel;
   const firstTime = !state.completed[lv];
   state.completed[lv] = true;
-  if (firstTime) state.badges = Math.min(TOTAL_BADGE, state.badges + 1);
-  if (lv + 1 > state.unlockedLevel && lv + 1 <= TOTAL_BADGE) state.unlockedLevel = lv + 1;
+
+  // Badge bonus hanya jika belum pernah dapat dari membaca
+  if (firstTime && !state.read[lv]) {
+    state.badges = Math.min(TOTAL_BADGE, state.badges + 1);
+  }
+  // Unlock next juga (sebagai backup jika user langsung kuis tanpa baca)
+  if (lv + 1 > state.unlockedLevel && lv + 1 <= TOTAL_BADGE) {
+    state.unlockedLevel = lv + 1;
+  }
+  state.read[lv] = true; // tandai juga sudah dibaca
   saveState();
 
-  el('rewardBadgeIcon').textContent = firstTime ? '🛡️' : '🏅';
-  el('rewardTitle').textContent = firstTime ? 'BADGE BARU!' : 'Sudah Selesai!';
+  el('rewardBadgeIcon').textContent = firstTime ? '🏆' : '🏅';
+  el('rewardTitle').textContent = firstTime ? 'KUIS SELESAI!' : 'Sudah Selesai!';
   el('rewardText').textContent = firstTime
-    ? `Kamu berhasil menggambar Pancasila utuh untuk ${MATERI[lv].bab} - ${MATERI[lv].nama}. Pertahankan!`
-    : `Kamu mengulang ${MATERI[lv].bab} dengan baik. Badge sudah kamu miliki.`;
+    ? `Kamu berhasil menyelesaikan kuis ${MATERI[lv].bab} dengan sempurna. Kerja bagus!`
+    : `Kamu mengulang kuis ${MATERI[lv].bab} dengan baik.`;
   el('badgeCountText').textContent = `Badge Pancasila: ${state.badges}/${TOTAL_BADGE}`;
   showScreen('reward');
-  showToast(firstTime ? '🛡️ Badge Pancasila +1!' : '✅ Level selesai!');
+  showToast(firstTime ? '🏆 Kuis selesai!' : '✅ Selesai!');
 }
 
 el('btnRewardNext').addEventListener('click', () => {
@@ -1246,8 +1331,10 @@ function renderBadgePanel() {
   list.innerHTML = '';
   for (let i = 1; i <= TOTAL_BADGE; i++) {
     const d = document.createElement('div');
-    d.className = 'mini-badge' + (state.completed[i] ? '' : ' empty');
-    d.textContent = state.completed[i] ? '🛡️' : i;
+    // Badge given if read OR completed
+    const awarded = state.read[i] || state.completed[i];
+    d.className = 'mini-badge' + (awarded ? '' : ' empty');
+    d.textContent = awarded ? '🛡️' : i;
     d.title = MATERI[i].bab + ' - ' + MATERI[i].nama;
     list.appendChild(d);
   }
@@ -1259,7 +1346,7 @@ function showToast(msg) {
   t.classList.remove('show');
   void t.offsetWidth;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2000);
+  setTimeout(() => t.classList.remove('show'), 2400);
 }
 
 loadState();
