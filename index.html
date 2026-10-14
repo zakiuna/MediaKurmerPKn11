@@ -175,7 +175,6 @@
   }
   .materi-highlight b { color:#fff; }
 
-  /* ===== DUAL ACTION BUTTONS ===== */
   .materi-actions {
     position: sticky; bottom: 0; margin: 16px auto 0;
     display: flex; flex-direction: column; gap: 10px;
@@ -203,7 +202,6 @@
   .btn-start-quiz:active { transform: scale(.97); }
   .btn-start-quiz .hint { font-size: 10px; opacity: 0.7; font-weight: normal; }
 
-  /* ===== QUIZ ===== */
   .quiz-screen { flex:1; padding:16px; display:flex; flex-direction:column; }
   .quiz-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:8px; }
   .btn-back {
@@ -306,8 +304,9 @@
     background: rgba(10,25,41,0.95); border:2px solid var(--primary-light);
     color: var(--primary-light); padding:10px 20px; border-radius:30px;
     font-size:13px; font-weight:bold; z-index:200; display:none; white-space:nowrap;
+    max-width: 90vw; text-overflow: ellipsis; overflow: hidden;
   }
-  .toast.show { display:block; animation: toastAnim 2s; }
+  .toast.show { display:block; animation: toastAnim 2.4s; }
   @keyframes toastAnim { 0%{opacity:0;transform:translate(-50%,-20px);} 15%{opacity:1;transform:translate(-50%,0);} 85%{opacity:1;} 100%{opacity:0;} }
 
   .hidden { display:none !important; }
@@ -342,7 +341,7 @@
       <span class="d">Bab 4 - Bab 6 (Level 4-6)</span>
     </button>
     <div style="font-size:11px;color:#64748B;text-align:center;margin-top:8px;">
-      📖 Baca materi → buka level berikutnya • 🎯 Kuis opsional untuk badge tambahan
+      📖 Buka materi → level berikutnya otomatis terbuka • 🎯 Kuis opsional
     </div>
   </div>
 
@@ -365,7 +364,7 @@
     <div class="materi-scroll" id="materiScroll"></div>
     <div class="materi-actions">
       <button class="btn-done-read" id="btnDoneRead">
-        ✓ Selesai Membaca Materi
+        ✓ Tandai Sudah Selesai Dibaca
       </button>
       <button class="btn-start-quiz" id="btnStartQuiz">
         🎯 Mulai Kuis <span class="hint">(opsional - 10 soal)</span>
@@ -943,11 +942,11 @@ const MATERI = {
 
 const TOTAL_BADGE = 6;
 
-/* STATE — Sistem baru: unlock berdasarkan BACA materi, kuis opsional */
+/* STATE */
 let state = {
   unlockedLevel: 1,
-  read: {},        // level yang sudah selesai dibaca → untuk UNLOCK
-  completed: {},   // level yang sudah selesai kuis → untuk badge tambahan
+  read: {},
+  completed: {},
   badges: 0,
   currentSemester: 1,
   currentLevel: 1,
@@ -1012,9 +1011,6 @@ function selectSemester(sem) {
   showScreen('level');
 }
 
-/* ============================================================
-   RENDER LEVELS — status: read (dibaca) vs done (kuis selesai)
-   ============================================================ */
 function renderLevels() {
   const list = el('levelList');
   list.innerHTML = '';
@@ -1033,10 +1029,10 @@ function renderLevels() {
 
     let statusText;
     let icon;
-    if (locked) { statusText = 'Terkunci - baca bab sebelumnya'; icon = '🔒'; }
+    if (locked) { statusText = 'Terkunci - buka bab sebelumnya'; icon = '🔒'; }
     else if (isDone) { statusText = '⭐ Materi dibaca + Kuis selesai'; icon = '✅'; }
-    else if (isRead) { statusText = '📖 Sudah dibaca • Kuis opsional'; icon = '📖'; }
-    else { statusText = '📖 Baca materi untuk membuka level'; icon = '➜'; }
+    else if (isRead) { statusText = '📖 Sudah dibuka • Kuis opsional'; icon = '📖'; }
+    else { statusText = '📖 Buka materi untuk membuka level'; icon = '➜'; }
 
     const card = document.createElement('div');
     card.className = cls;
@@ -1062,9 +1058,24 @@ function backToLevels() {
 }
 el('btnMateriBack').addEventListener('click', backToLevels);
 
+/* ============================================================
+   BUKA MATERI → AUTO-UNLOCK level berikutnya (fix utama!)
+   ============================================================ */
 function openMateri(lv) {
   state.currentLevel = lv;
   const m = MATERI[lv];
+
+  // ⭐ AUTO-MARK AS READ + UNLOCK berikutnya SEGERA saat materi dibuka
+  const firstRead = !state.read[lv];
+  state.read[lv] = true;
+  if (lv + 1 > state.unlockedLevel && lv + 1 <= TOTAL_BADGE) {
+    state.unlockedLevel = lv + 1;
+  }
+  if (firstRead && !state.completed[lv]) {
+    state.badges = Math.min(TOTAL_BADGE, state.badges + 1);
+  }
+  saveState();
+
   el('headerLevel').textContent = 'Level ' + lv;
   el('headerSub').textContent = m.bab + ' - ' + m.nama;
   el('materiBadge').textContent = '📖 ' + m.bab;
@@ -1092,54 +1103,45 @@ function openMateri(lv) {
   html += `
     <div class="materi-highlight">${mat.highlight}</div>
     <div style="text-align:center;font-size:11px;color:#64748B;margin-top:8px;">
-      Setelah selesai membaca, klik tombol <b style="color:#2ECC71;">✓ Selesai Membaca</b> untuk membuka level berikutnya 👇
+      ✅ <b style="color:#2ECC71;">Level berikutnya sudah terbuka!</b> Kembali ke daftar untuk lanjut, atau coba kuis di bawah 👇
     </div>
   `;
   sc.innerHTML = html;
   sc.scrollTop = 0;
 
-  // Update tombol "Selesai Membaca" sesuai status
+  // Update tombol
   const btnDone = el('btnDoneRead');
-  if (state.read[lv]) {
-    btnDone.textContent = '✓ Sudah Dibaca';
-    btnDone.classList.add('completed');
-  } else {
-    btnDone.innerHTML = '✓ Selesai Membaca Materi';
+  if (firstRead) {
+    btnDone.innerHTML = '✓ Lanjut ke Level Berikutnya →';
     btnDone.classList.remove('completed');
+  } else {
+    btnDone.innerHTML = '✓ Lanjut ke Level Berikutnya →';
+    btnDone.classList.add('completed');
   }
 
   showScreen('materi');
+
+  // Notifikasi toast kalau baru pertama kali dibaca
+  if (firstRead) {
+    showToast('✅ Level berikutnya terbuka! Badge +1 🛡️');
+  }
 }
 
 /* ============================================================
-   SELESAI MEMBACA → UNLOCK LEVEL BERIKUTNYA
+   TOMBOL SELESAI MEMBACA → tampilkan reward & kembali ke daftar
    ============================================================ */
 el('btnDoneRead').addEventListener('click', () => {
   const lv = state.currentLevel;
-  const firstRead = !state.read[lv];
-  state.read[lv] = true;
+  const isRead = !!state.read[lv];
+  const isDone = !!state.completed[lv];
 
-  // Unlock level berikutnya
-  if (lv + 1 > state.unlockedLevel && lv + 1 <= TOTAL_BADGE) {
-    state.unlockedLevel = lv + 1;
-  }
-
-  // Award badge kalau baru pertama kali dibaca (dan belum pernah dapat badge dari level ini)
-  if (firstRead && !state.completed[lv]) {
-    state.badges = Math.min(TOTAL_BADGE, state.badges + 1);
-  }
-  saveState();
-
-  showToast(firstRead ? '📖 Selesai membaca! Badge +1 & Level berikutnya terbuka' : '📖 Materi sudah dibaca');
-
-  // Pindah ke reward screen
-  el('rewardBadgeIcon').textContent = firstRead ? '🛡️' : '📖';
-  el('rewardTitle').textContent = firstRead ? 'SELESAI MEMBACA!' : 'Sudah Dibaca';
-  el('rewardText').textContent = firstRead
-    ? `Materi ${MATERI[lv].bab} selesai dibaca. Level berikutnya sudah terbuka! Kamu juga mendapat Badge Pancasila. Kuis opsional untuk menguji pemahaman.`
-    : `Kamu sudah pernah membaca materi ini. Level berikutnya sudah terbuka sebelumnya.`;
+  // Show reward screen
+  el('rewardBadgeIcon').textContent = isRead ? '🛡️' : '📖';
+  el('rewardTitle').textContent = '📖 Materi Selesai Dibaca!';
+  el('rewardText').textContent = `Materi ${MATERI[lv].bab} - ${MATERI[lv].nama} sudah kamu baca. Level berikutnya sudah terbuka! Kamu juga mendapat Badge Pancasila 🛡️. Coba kuis opsional untuk uji pemahaman.`;
   el('badgeCountText').textContent = `Badge Pancasila: ${state.badges}/${TOTAL_BADGE}`;
   showScreen('reward');
+  showToast('🛡️ Badge Pancasila diperoleh!');
 });
 
 /* ============================================================
@@ -1292,23 +1294,13 @@ function handleFeedbackNext() {
   else finishLevel();
 }
 
-/* ============================================================
-   FINISH QUIZ → BONUS BADGE (opsional, kuis tidak diperlukan unlock)
-   ============================================================ */
 function finishLevel() {
   const lv = state.currentLevel;
   const firstTime = !state.completed[lv];
   state.completed[lv] = true;
-
-  // Badge bonus hanya jika belum pernah dapat dari membaca
-  if (firstTime && !state.read[lv]) {
-    state.badges = Math.min(TOTAL_BADGE, state.badges + 1);
-  }
-  // Unlock next juga (sebagai backup jika user langsung kuis tanpa baca)
-  if (lv + 1 > state.unlockedLevel && lv + 1 <= TOTAL_BADGE) {
-    state.unlockedLevel = lv + 1;
-  }
-  state.read[lv] = true; // tandai juga sudah dibaca
+  state.read[lv] = true;
+  if (firstTime && !state.read[lv]) state.badges = Math.min(TOTAL_BADGE, state.badges + 1);
+  if (lv + 1 > state.unlockedLevel && lv + 1 <= TOTAL_BADGE) state.unlockedLevel = lv + 1;
   saveState();
 
   el('rewardBadgeIcon').textContent = firstTime ? '🏆' : '🏅';
@@ -1331,7 +1323,6 @@ function renderBadgePanel() {
   list.innerHTML = '';
   for (let i = 1; i <= TOTAL_BADGE; i++) {
     const d = document.createElement('div');
-    // Badge given if read OR completed
     const awarded = state.read[i] || state.completed[i];
     d.className = 'mini-badge' + (awarded ? '' : ' empty');
     d.textContent = awarded ? '🛡️' : i;
@@ -1346,7 +1337,7 @@ function showToast(msg) {
   t.classList.remove('show');
   void t.offsetWidth;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2400);
+  setTimeout(() => t.classList.remove('show'), 2600);
 }
 
 loadState();
