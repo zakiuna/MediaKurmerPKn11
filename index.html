@@ -26,16 +26,18 @@
   }
 
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  html, body { height:100%; font-family:'Segoe UI',Roboto,sans-serif; overflow-x:hidden; }
+  html, body { height:100%; font-family:'Segoe UI',Roboto,sans-serif; overflow: hidden; }
   body { background: linear-gradient(160deg, #0A1929 0%, #0D2B2B 50%, #0D4949 100%); color: var(--text-primary); display:flex; justify-content:center; }
-  #app { width:100%; max-width:480px; min-height:100vh; position:relative; display:flex; flex-direction:column; }
+  #app { width:100%; max-width:480px; height:100vh; position:relative; display:flex; flex-direction:column; overflow:hidden; }
 
+  /* ===== HEADER ===== */
   .header {
     padding:14px 16px;
-    background: linear-gradient(135deg, rgba(10,25,41,0.9), rgba(13,43,43,0.9));
+    background: linear-gradient(135deg, rgba(10,25,41,0.95), rgba(13,43,43,0.95));
     backdrop-filter: blur(10px);
     border-bottom: 2px solid var(--border);
-    position: sticky; top:0; z-index:50;
+    flex-shrink: 0;
+    z-index: 50;
     display: flex; align-items: center; justify-content: space-between; gap:10px;
   }
   .header h1 { font-size:16px; color: var(--primary-light); letter-spacing:.5px; }
@@ -44,6 +46,7 @@
     background: linear-gradient(135deg, var(--gold), var(--gold-dark));
     color: #000; font-weight:bold; font-size:12px; padding:6px 10px;
     border-radius:20px; box-shadow: 0 2px 10px rgba(251,201,72,0.4);
+    white-space: nowrap;
   }
 
   .btn-home {
@@ -55,7 +58,8 @@
   }
   .btn-home:active { transform:scale(0.9); }
 
-  .semester-screen { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; gap:20px; }
+  /* ===== SEMESTER ===== */
+  .semester-screen { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; gap:20px; overflow-y:auto; }
   .logo-pkn { text-align:center; margin-bottom:8px; }
   .logo-pkn .garuda {
     width:100px; height:100px; border-radius:50%;
@@ -83,11 +87,13 @@
   .btn-semester .t { font-size:18px; }
   .btn-semester .d { font-size:11px; font-weight:normal; opacity:.85; }
 
-  .level-screen { flex:1; padding:16px; display:flex; flex-direction:column; }
-  .level-title { text-align:center; margin:10px 0 20px; }
+  /* ===== LEVEL ===== */
+  .level-screen { flex:1; min-height:0; display:flex; flex-direction:column; padding:16px 16px 0; overflow:hidden; }
+  .level-topbar { flex-shrink:0; margin-bottom:10px; }
+  .level-title { flex-shrink:0; text-align:center; margin:10px 0 20px; }
   .level-title h2 { color: var(--primary-light); font-size:19px; }
   .level-title p { color: var(--text-secondary); font-size:11px; margin-top:4px; }
-  .level-list { display:flex; flex-direction:column; gap:14px; overflow-y:auto; padding-bottom:70px; }
+  .level-list { flex:1; min-height:0; display:flex; flex-direction:column; gap:14px; overflow-y:auto; -webkit-overflow-scrolling:touch; padding-bottom:80px; }
   .level-card {
     display:flex; align-items:center; gap:14px; padding:16px;
     background: var(--bg-card); border:2px solid var(--border);
@@ -111,44 +117,52 @@
   .level-info .stars { font-size:12px; margin-top:4px; color: var(--gold); }
   .lock-icon { font-size:20px; }
 
-  .materi-screen { flex:1; padding:16px; display:flex; flex-direction:column; }
-  .materi-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; gap:10px; }
+  /* ===== MATERI SCREEN (FIXED LAYOUT) ===== */
+  .materi-screen {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .materi-top {
+    flex-shrink: 0;
+    padding: 12px 16px;
+    background: rgba(10,25,41,0.7);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
   .materi-badge {
-    display:inline-flex; align-items:center; gap:6px; padding:6px 12px;
-    background: rgba(20,184,166,0.15); border:1px solid var(--primary);
-    border-radius:20px; font-size:11px; color: var(--primary-light); font-weight:bold;
+    display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px;
+    background: rgba(20,184,166,0.15); border: 1px solid var(--primary);
+    border-radius: 20px; font-size: 11px; color: var(--primary-light); font-weight: bold;
   }
-  .materi-scroll { flex:1; overflow-y:auto; padding-bottom:180px; }
-  .materi-hero {
-    text-align:center; padding:20px 16px; margin-bottom:16px;
-    background: linear-gradient(135deg, rgba(20,184,166,0.15), rgba(13,73,73,0.3));
-    border:2px solid var(--border); border-radius:18px;
+
+  .materi-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 16px 16px 20px 16px;
   }
+
+  .materi-hero { text-align:center; padding:20px 16px; margin-bottom:16px; background: linear-gradient(135deg, rgba(20,184,166,0.15), rgba(13,73,73,0.3)); border:2px solid var(--border); border-radius:18px; }
   .materi-hero .icon { font-size:56px; margin-bottom:8px; }
   .materi-hero h2 { font-size:18px; color: var(--primary-light); margin-bottom:4px; line-height:1.3; }
   .materi-hero .sub { font-size:11px; color: var(--text-secondary); }
 
-  .materi-tip {
-    background: linear-gradient(135deg, rgba(46,204,113,0.15), rgba(39,174,96,0.05));
-    border:1px solid rgba(46,204,113,0.4); border-radius:12px; padding:14px;
-    font-size:13px; color: #D4F5E0; margin-bottom:16px; line-height:1.65;
-  }
+  .materi-tip { background: linear-gradient(135deg, rgba(46,204,113,0.15), rgba(39,174,96,0.05)); border:1px solid rgba(46,204,113,0.4); border-radius:12px; padding:14px; font-size:13px; color: #D4F5E0; margin-bottom:16px; line-height:1.65; }
   .materi-tip b { color: #A8E6C1; }
 
-  .materi-section {
-    background: var(--bg-card); border-radius:14px; padding:16px;
-    margin-bottom:14px; border-left:4px solid var(--primary);
-  }
-  .materi-section h3 {
-    font-size:15px; color: var(--primary-light); margin-bottom:12px;
-    display:flex; align-items:center; gap:8px; line-height:1.35;
-  }
-  .materi-section h3 .num {
-    width:26px; height:26px; border-radius:50%;
-    background: var(--primary); color:#fff;
-    display:flex; align-items:center; justify-content:center;
-    font-size:12px; font-weight:bold; flex-shrink:0;
-  }
+  .materi-section { background: var(--bg-card); border-radius:14px; padding:16px; margin-bottom:14px; border-left:4px solid var(--primary); }
+  .materi-section h3 { font-size:15px; color: var(--primary-light); margin-bottom:12px; display:flex; align-items:center; gap:8px; line-height:1.35; }
+  .materi-section h3 .num { width:26px; height:26px; border-radius:50%; background: var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:bold; flex-shrink:0; }
   .materi-section .body { font-size:13.5px; line-height:1.75; color: #E2E8F0; }
   .materi-section .body p { margin-bottom:10px; }
   .materi-section .body p:last-child { margin-bottom:0; }
@@ -158,52 +172,45 @@
   .materi-section .body ul li::before { content:'▸'; position:absolute; left:6px; color: var(--primary-light); font-weight:bold; }
   .materi-section .body ol { padding-left:22px; margin:8px 0; }
   .materi-section .body ol li { padding:4px 0; }
-  .materi-section .body .box {
-    background: rgba(20,184,166,0.12); border-radius:8px; padding:10px 12px;
-    margin:10px 0; border-left:3px solid var(--primary); font-size:13px;
-  }
+  .materi-section .body .box { background: rgba(20,184,166,0.12); border-radius:8px; padding:10px 12px; margin:10px 0; border-left:3px solid var(--primary); font-size:13px; }
   .materi-section .body .box.green { background: rgba(46,204,113,0.12); border-left-color: var(--success); }
   .materi-section .body .box.red { background: rgba(231,76,60,0.12); border-left-color: var(--danger); }
   .materi-section .body .box.blue { background: rgba(20,184,166,0.15); border-left-color: var(--primary-light); }
   .materi-section .body .box.gold { background: rgba(251,201,72,0.12); border-left-color: var(--gold); }
   .materi-section .body .box b { display:inline-block; margin-bottom:4px; }
 
-  .materi-highlight {
-    background: linear-gradient(135deg, rgba(20,184,166,0.2), rgba(13,73,73,0.15));
-    border:1px solid rgba(20,184,166,0.5); border-radius:12px;
-    padding:14px; font-size:13px; color: #D4F5E0; line-height:1.7; margin-bottom:16px;
-  }
+  .materi-highlight { background: linear-gradient(135deg, rgba(20,184,166,0.2), rgba(13,73,73,0.15)); border:1px solid rgba(20,184,166,0.5); border-radius:12px; padding:14px; font-size:13px; color: #D4F5E0; line-height:1.7; margin-bottom:16px; }
   .materi-highlight b { color:#fff; }
 
+  /* ===== ACTIONS BAR — DI BAWAH, TIDAK STICKY ===== */
   .materi-actions {
-    position: sticky; bottom: 0; margin: 16px auto 0;
-    display: flex; flex-direction: column; gap: 10px;
-    width: 100%; max-width: 400px;
-    padding-top: 12px;
-    background: linear-gradient(to top, rgba(10,25,41,0.95) 60%, rgba(10,25,41,0));
+    flex-shrink: 0;
+    padding: 12px 16px 68px 16px;
+    background: linear-gradient(to top, rgba(10,25,41,0.98) 75%, rgba(10,25,41,0.6) 100%);
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
-  .btn-done-read {
-    padding:16px; border:none; border-radius:30px; font-size:15px; font-weight:bold;
+  .materi-actions .btn-done-read {
+    padding:14px; border:none; border-radius:26px; font-size:14px; font-weight:bold;
     color:#fff; background: linear-gradient(135deg, var(--success), var(--success-dark));
-    box-shadow: 0 8px 22px rgba(46,204,113,0.5); cursor:pointer;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
+    box-shadow: 0 6px 18px rgba(46,204,113,0.45); cursor:pointer;
     transition: transform .15s;
   }
-  .btn-done-read:active { transform: scale(.97); }
-  .btn-done-read.completed { background: linear-gradient(135deg, #475569, #334155); box-shadow: 0 8px 22px rgba(51,65,85,0.4); }
-
-  .btn-start-quiz {
-    padding:14px; border:2px solid var(--border); border-radius:30px;
-    font-size:14px; font-weight:bold; color: var(--primary-light);
+  .materi-actions .btn-done-read:active { transform: scale(.97); }
+  .materi-actions .btn-start-quiz {
+    padding:12px; border:2px solid var(--border); border-radius:26px;
+    font-size:13px; font-weight:bold; color: var(--primary-light);
     background: rgba(20,184,166,0.08); cursor:pointer;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
     transition: transform .15s;
   }
-  .btn-start-quiz:active { transform: scale(.97); }
-  .btn-start-quiz .hint { font-size: 10px; opacity: 0.7; font-weight: normal; }
+  .materi-actions .btn-start-quiz:active { transform: scale(.97); }
+  .materi-actions .btn-start-quiz .hint { font-size: 10px; opacity: 0.7; font-weight: normal; }
 
-  .quiz-screen { flex:1; padding:16px; display:flex; flex-direction:column; }
-  .quiz-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:8px; }
+  /* ===== QUIZ ===== */
+  .quiz-screen { flex:1; min-height:0; padding:16px; display:flex; flex-direction:column; overflow:hidden; }
+  .quiz-top { flex-shrink:0; display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:8px; }
   .btn-back {
     background: rgba(20,184,166,0.15); border:1px solid var(--border);
     color: var(--primary-light); padding:8px 14px; border-radius:10px;
@@ -216,13 +223,14 @@
     transition: width .3s;
   }
   .q-counter { font-size:12px; color: var(--gold); font-weight:bold; }
+  .content-scroll { flex:1; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; padding-bottom:20px; }
   .question-box {
     background: var(--bg-card); border-radius:16px; padding:18px;
     margin-bottom:16px; border-left:4px solid var(--primary);
     min-height:90px; display:flex; align-items:center;
   }
   .question-box p { font-size:15px; line-height:1.5; }
-  .options { display:flex; flex-direction:column; gap:10px; padding-bottom:20px; }
+  .options { display:flex; flex-direction:column; gap:10px; }
   .option-btn {
     padding:14px 16px; border:2px solid rgba(20,184,166,0.2); border-radius:12px;
     background: rgba(20,184,166,0.05); color:#fff; font-size:14px; text-align:left;
@@ -239,6 +247,7 @@
   .option-btn.wrong { border-color: var(--danger); background: rgba(231,76,60,0.25); }
   .option-btn:disabled { cursor:default; }
 
+  /* ===== FEEDBACK ===== */
   .feedback-overlay {
     position:fixed; inset:0; z-index:100; display:none;
     align-items:center; justify-content:center; flex-direction:column;
@@ -266,7 +275,8 @@
   }
   .btn-next:active { transform:scale(.96); }
 
-  .reward-screen { flex:1; display:none; flex-direction:column; align-items:center; justify-content:center; padding:24px; text-align:center; gap:16px; }
+  /* ===== REWARD ===== */
+  .reward-screen { flex:1; display:none; flex-direction:column; align-items:center; justify-content:center; padding:24px; text-align:center; gap:16px; overflow-y:auto; }
   .reward-screen.show { display:flex; }
   .reward-badge {
     width:160px; height:160px; border-radius:50%;
@@ -274,6 +284,7 @@
     display:flex; align-items:center; justify-content:center; font-size:80px;
     box-shadow: 0 0 50px rgba(251,201,72,0.9);
     animation: spinBadge 1s cubic-bezier(.68,-.55,.27,1.55);
+    flex-shrink: 0;
   }
   @keyframes spinBadge { 0%{transform:scale(0) rotate(0);} 100%{transform:scale(1) rotate(360deg);} }
   .reward-screen h2 { color: var(--gold); font-size:24px; }
@@ -283,6 +294,7 @@
     border-radius:12px; padding:12px 20px; font-size:14px; color: var(--gold); font-weight:bold;
   }
 
+  /* ===== BADGE PANEL ===== */
   .badge-panel {
     position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto;
     background: rgba(10,25,41,0.95); backdrop-filter: blur(12px);
@@ -299,6 +311,7 @@
   }
   .mini-badge.empty { background: rgba(20,184,166,0.1); box-shadow:none; font-size:10px; color:#475569; }
 
+  /* ===== TOAST ===== */
   .toast {
     position:fixed; top:70px; left:50%; transform: translateX(-50%);
     background: rgba(10,25,41,0.95); border:2px solid var(--primary-light);
@@ -310,7 +323,6 @@
   @keyframes toastAnim { 0%{opacity:0;transform:translate(-50%,-20px);} 15%{opacity:1;transform:translate(-50%,0);} 85%{opacity:1;} 100%{opacity:0;} }
 
   .hidden { display:none !important; }
-  .content-scroll { flex:1; overflow-y:auto; }
 </style>
 </head>
 <body>
@@ -346,7 +358,7 @@
   </div>
 
   <div class="level-screen hidden" id="levelScreen">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+    <div class="level-topbar">
       <button class="btn-back" id="btnLevelBack">🏠 Halaman Depan</button>
     </div>
     <div class="level-title">
@@ -363,12 +375,8 @@
     </div>
     <div class="materi-scroll" id="materiScroll"></div>
     <div class="materi-actions">
-      <button class="btn-done-read" id="btnDoneRead">
-        ✓ Tandai Sudah Selesai Dibaca
-      </button>
-      <button class="btn-start-quiz" id="btnStartQuiz">
-        🎯 Mulai Kuis <span class="hint">(opsional - 10 soal)</span>
-      </button>
+      <button class="btn-done-read" id="btnDoneRead">✓ Lanjut ke Level Berikutnya →</button>
+      <button class="btn-start-quiz" id="btnStartQuiz">🎯 Mulai Kuis <span class="hint">(opsional - 10 soal)</span></button>
     </div>
   </div>
 
@@ -942,7 +950,6 @@ const MATERI = {
 
 const TOTAL_BADGE = 6;
 
-/* STATE */
 let state = {
   unlockedLevel: 1,
   read: {},
@@ -1059,13 +1066,12 @@ function backToLevels() {
 el('btnMateriBack').addEventListener('click', backToLevels);
 
 /* ============================================================
-   BUKA MATERI → AUTO-UNLOCK level berikutnya (fix utama!)
+   BUKA MATERI → AUTO-UNLOCK level berikutnya
    ============================================================ */
 function openMateri(lv) {
   state.currentLevel = lv;
   const m = MATERI[lv];
 
-  // ⭐ AUTO-MARK AS READ + UNLOCK berikutnya SEGERA saat materi dibuka
   const firstRead = !state.read[lv];
   state.read[lv] = true;
   if (lv + 1 > state.unlockedLevel && lv + 1 <= TOTAL_BADGE) {
@@ -1109,36 +1115,21 @@ function openMateri(lv) {
   sc.innerHTML = html;
   sc.scrollTop = 0;
 
-  // Update tombol
-  const btnDone = el('btnDoneRead');
-  if (firstRead) {
-    btnDone.innerHTML = '✓ Lanjut ke Level Berikutnya →';
-    btnDone.classList.remove('completed');
-  } else {
-    btnDone.innerHTML = '✓ Lanjut ke Level Berikutnya →';
-    btnDone.classList.add('completed');
-  }
-
   showScreen('materi');
 
-  // Notifikasi toast kalau baru pertama kali dibaca
   if (firstRead) {
     showToast('✅ Level berikutnya terbuka! Badge +1 🛡️');
   }
 }
 
 /* ============================================================
-   TOMBOL SELESAI MEMBACA → tampilkan reward & kembali ke daftar
+   TOMBOL SELESAI MEMBACA → reward screen
    ============================================================ */
 el('btnDoneRead').addEventListener('click', () => {
   const lv = state.currentLevel;
-  const isRead = !!state.read[lv];
-  const isDone = !!state.completed[lv];
-
-  // Show reward screen
-  el('rewardBadgeIcon').textContent = isRead ? '🛡️' : '📖';
+  el('rewardBadgeIcon').textContent = '🛡️';
   el('rewardTitle').textContent = '📖 Materi Selesai Dibaca!';
-  el('rewardText').textContent = `Materi ${MATERI[lv].bab} - ${MATERI[lv].nama} sudah kamu baca. Level berikutnya sudah terbuka! Kamu juga mendapat Badge Pancasila 🛡️. Coba kuis opsional untuk uji pemahaman.`;
+  el('rewardText').textContent = `Materi ${MATERI[lv].bab} - ${MATERI[lv].nama} sudah kamu baca. Level berikutnya sudah terbuka! Coba kuis opsional untuk uji pemahaman.`;
   el('badgeCountText').textContent = `Badge Pancasila: ${state.badges}/${TOTAL_BADGE}`;
   showScreen('reward');
   showToast('🛡️ Badge Pancasila diperoleh!');
@@ -1299,7 +1290,6 @@ function finishLevel() {
   const firstTime = !state.completed[lv];
   state.completed[lv] = true;
   state.read[lv] = true;
-  if (firstTime && !state.read[lv]) state.badges = Math.min(TOTAL_BADGE, state.badges + 1);
   if (lv + 1 > state.unlockedLevel && lv + 1 <= TOTAL_BADGE) state.unlockedLevel = lv + 1;
   saveState();
 
