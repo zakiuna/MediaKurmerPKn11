@@ -7,70 +7,36 @@
 <style>
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   html, body { height:100%; font-family:'Segoe UI',Roboto,sans-serif; overflow-x:hidden; }
-  body {
-    background: linear-gradient(160deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);
-    color:#fff; min-height:100vh; display:flex; justify-content:center;
-  }
+  body { background:linear-gradient(160deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%); color:#fff; display:flex; justify-content:center; }
   #app { width:100%; max-width:480px; min-height:100vh; position:relative; display:flex; flex-direction:column; }
-  
-  /* ===== HEADER ===== */
-  .header {
-    padding:14px 16px; background:rgba(0,0,0,0.35); backdrop-filter:blur(8px);
-    border-bottom:2px solid rgba(255,215,0,0.3); position:sticky; top:0; z-index:50;
-    display:flex; align-items:center; justify-content:space-between;
-  }
-  .header h1 { font-size:16px; color:#ffd700; letter-spacing:0.5px; }
-  .header .sub { font-size:10px; color:#aaa; }
-  .level-badge {
-    background:linear-gradient(135deg,#ffd700,#ff8c00); color:#000;
-    font-weight:bold; font-size:12px; padding:6px 10px; border-radius:20px;
-    box-shadow:0 2px 8px rgba(255,215,0,0.4);
-  }
 
-  /* ===== SEMESTER SELECT ===== */
-  .semester-screen { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; gap:24px; }
+  .header { padding:14px 16px; background:rgba(0,0,0,0.35); backdrop-filter:blur(8px); border-bottom:2px solid rgba(255,215,0,0.3); position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; }
+  .header h1 { font-size:16px; color:#ffd700; letter-spacing:.5px; }
+  .header .sub { font-size:10px; color:#aaa; }
+  .level-badge { background:linear-gradient(135deg,#ffd700,#ff8c00); color:#000; font-weight:bold; font-size:12px; padding:6px 10px; border-radius:20px; box-shadow:0 2px 8px rgba(255,215,0,.4); }
+
+  .semester-screen { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; gap:20px; }
   .logo-pkn { text-align:center; margin-bottom:8px; }
-  .logo-pkn .garuda {
-    width:100px; height:100px; border-radius:50%;
-    background:radial-gradient(circle,#ffd700,#b8860b);
-    display:flex; align-items:center; justify-content:center; margin:0 auto 12px;
-    font-size:52px; box-shadow:0 0 30px rgba(255,215,0,0.6);
-    animation:pulse 2.5s infinite;
-  }
+  .logo-pkn .garuda { width:100px; height:100px; border-radius:50%; background:radial-gradient(circle,#ffd700,#b8860b); display:flex; align-items:center; justify-content:center; margin:0 auto 12px; font-size:52px; box-shadow:0 0 30px rgba(255,215,0,.6); animation:pulse 2.5s infinite; }
   @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.06);} }
   .logo-pkn h2 { color:#ffd700; font-size:22px; margin-bottom:4px; }
   .logo-pkn p { color:#bbb; font-size:12px; }
-  .btn-semester {
-    width:100%; padding:22px; border:none; border-radius:16px;
-    font-size:17px; font-weight:bold; color:#fff; cursor:pointer;
-    background:linear-gradient(135deg,#e63946,#a4161a);
-    box-shadow:0 6px 20px rgba(230,57,70,0.5);
-    transition:transform .15s; display:flex; flex-direction:column; gap:4px; align-items:flex-start;
-  }
-  .btn-semester:active { transform:scale(0.97); }
-  .btn-semester.sem2 { background:linear-gradient(135deg,#0077b6,#023e8a); box-shadow:0 6px 20px rgba(0,119,182,0.5); }
+  .btn-semester { width:100%; padding:22px; border:none; border-radius:16px; font-size:17px; font-weight:bold; color:#fff; cursor:pointer; background:linear-gradient(135deg,#e63946,#a4161a); box-shadow:0 6px 20px rgba(230,57,70,.5); transition:transform .15s; display:flex; flex-direction:column; gap:4px; align-items:flex-start; }
+  .btn-semester:active { transform:scale(.97); }
+  .btn-semester.sem2 { background:linear-gradient(135deg,#0077b6,#023e8a); box-shadow:0 6px 20px rgba(0,119,182,.5); }
   .btn-semester .t { font-size:18px; }
-  .btn-semester .d { font-size:11px; font-weight:normal; opacity:0.85; }
+  .btn-semester .d { font-size:11px; font-weight:normal; opacity:.85; }
 
-  /* ===== LEVEL MAP ===== */
-  .level-screen { flex:1; padding:16px; }
+  .level-screen { flex:1; padding:16px; display:flex; flex-direction:column; }
   .level-title { text-align:center; margin:10px 0 20px; }
   .level-title h2 { color:#ffd700; font-size:19px; }
   .level-title p { color:#aaa; font-size:11px; margin-top:4px; }
-  .level-list { display:flex; flex-direction:column; gap:14px; }
-  .level-card {
-    display:flex; align-items:center; gap:14px; padding:16px;
-    background:rgba(255,255,255,0.06); border:2px solid rgba(255,215,0,0.25);
-    border-radius:16px; cursor:pointer; transition:all .2s;
-  }
-  .level-card:active { transform:scale(0.98); }
-  .level-card.locked { opacity:0.5; border-color:#555; cursor:not-allowed; }
+  .level-list { display:flex; flex-direction:column; gap:14px; overflow-y:auto; padding-bottom:70px; }
+  .level-card { display:flex; align-items:center; gap:14px; padding:16px; background:rgba(255,255,255,0.06); border:2px solid rgba(255,215,0,0.25); border-radius:16px; cursor:pointer; transition:all .2s; }
+  .level-card:active { transform:scale(.98); }
+  .level-card.locked { opacity:.5; border-color:#555; cursor:not-allowed; }
   .level-card.done { border-color:#2ecc71; background:rgba(46,204,113,0.12); }
-  .level-num {
-    width:52px; height:52px; border-radius:50%; flex-shrink:0;
-    background:linear-gradient(135deg,#ffd700,#ff8c00); color:#000;
-    display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:20px;
-  }
+  .level-num { width:52px; height:52px; border-radius:50%; flex-shrink:0; background:linear-gradient(135deg,#ffd700,#ff8c00); color:#000; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:20px; }
   .level-card.done .level-num { background:linear-gradient(135deg,#2ecc71,#27ae60); color:#fff; }
   .level-card.locked .level-num { background:#444; color:#888; }
   .level-info { flex:1; }
@@ -79,123 +45,62 @@
   .level-info .stars { font-size:12px; margin-top:4px; color:#ffd700; }
   .lock-icon { font-size:20px; }
 
-  /* ===== QUIZ SCREEN ===== */
   .quiz-screen { flex:1; padding:16px; display:flex; flex-direction:column; }
-  .quiz-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
-  .btn-back {
-    background:rgba(255,255,255,0.1); border:none; color:#fff; padding:8px 14px;
-    border-radius:10px; font-size:13px; cursor:pointer;
-  }
-  .progress-wrap { flex:1; margin:0 12px; height:8px; background:rgba(255,255,255,0.15); border-radius:10px; overflow:hidden; }
+  .quiz-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:8px; }
+  .btn-back { background:rgba(255,255,255,0.1); border:none; color:#fff; padding:8px 14px; border-radius:10px; font-size:13px; cursor:pointer; }
+  .progress-wrap { flex:1; height:8px; background:rgba(255,255,255,0.15); border-radius:10px; overflow:hidden; }
   .progress-bar { height:100%; width:0%; background:linear-gradient(90deg,#ffd700,#ff8c00); transition:width .3s; }
   .q-counter { font-size:12px; color:#ffd700; font-weight:bold; }
-
-  .question-box {
-    background:rgba(255,255,255,0.07); border-radius:16px; padding:18px;
-    margin-bottom:16px; border-left:4px solid #ffd700; min-height:90px;
-    display:flex; align-items:center;
-  }
+  .question-box { background:rgba(255,255,255,0.07); border-radius:16px; padding:18px; margin-bottom:16px; border-left:4px solid #ffd700; min-height:90px; display:flex; align-items:center; }
   .question-box p { font-size:15px; line-height:1.5; }
-
-  .options { display:flex; flex-direction:column; gap:10px; }
-  .option-btn {
-    padding:14px 16px; border:2px solid rgba(255,255,255,0.15); border-radius:12px;
-    background:rgba(255,255,255,0.04); color:#fff; font-size:14px; text-align:left;
-    cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:10px;
-  }
-  .option-btn:active { transform:scale(0.98); }
-  .option-btn .key {
-    width:26px; height:26px; border-radius:50%; background:rgba(255,215,0,0.2);
-    color:#ffd700; display:flex; align-items:center; justify-content:center;
-    font-weight:bold; font-size:13px; flex-shrink:0;
-  }
+  .options { display:flex; flex-direction:column; gap:10px; padding-bottom:20px; }
+  .option-btn { padding:14px 16px; border:2px solid rgba(255,255,255,0.15); border-radius:12px; background:rgba(255,255,255,0.04); color:#fff; font-size:14px; text-align:left; cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:10px; }
+  .option-btn:active { transform:scale(.98); }
+  .option-btn .key { width:26px; height:26px; border-radius:50%; background:rgba(255,215,0,0.2); color:#ffd700; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:13px; flex-shrink:0; }
   .option-btn.correct { border-color:#2ecc71; background:rgba(46,204,113,0.25); }
   .option-btn.wrong { border-color:#e74c3c; background:rgba(231,76,60,0.25); }
   .option-btn:disabled { cursor:default; }
 
-  /* ===== FEEDBACK OVERLAY ===== */
-  .feedback-overlay {
-    position:fixed; inset:0; z-index:100; display:none;
-    align-items:center; justify-content:center; flex-direction:column;
-    background:rgba(0,0,0,0.85); backdrop-filter:blur(6px);
-  }
+  .feedback-overlay { position:fixed; inset:0; z-index:100; display:none; align-items:center; justify-content:center; flex-direction:column; background:rgba(0,0,0,0.88); backdrop-filter:blur(6px); }
   .feedback-overlay.show { display:flex; animation:fadeIn .3s; }
   @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
-  
   #flagCanvas { position:absolute; inset:0; width:100%; height:100%; z-index:0; }
-  
-  .feedback-content { position:relative; z-index:2; text-align:center; padding:20px; }
-  .pancasila-icon {
-    font-size:110px; line-height:1; margin-bottom:20px;
-    filter:drop-shadow(0 0 25px rgba(255,215,0,0.8));
-    animation:popIn .5s cubic-bezier(0.68,-0.55,0.27,1.55);
-  }
+  .feedback-content { position:relative; z-index:2; text-align:center; padding:20px; max-width:340px; }
+  .pancasila-icon { font-size:110px; line-height:1; margin-bottom:16px; filter:drop-shadow(0 0 25px rgba(255,215,0,.8)); animation:popIn .5s cubic-bezier(.68,-.55,.27,1.55); }
   @keyframes popIn { 0%{transform:scale(0) rotate(-180deg);} 100%{transform:scale(1) rotate(0);} }
-  .pancasila-icon.wrong { filter:drop-shadow(0 0 25px rgba(231,76,60,0.9)); }
+  .pancasila-icon.wrong { filter:drop-shadow(0 0 25px rgba(231,76,60,.9)); }
   .feedback-text { font-size:22px; font-weight:bold; margin-bottom:8px; }
   .feedback-text.ok { color:#2ecc71; }
   .feedback-text.no { color:#e74c3c; }
-  .feedback-sub { font-size:13px; color:#ccc; margin-bottom:20px; max-width:300px; }
-  .btn-next {
-    padding:14px 36px; border:none; border-radius:30px; font-size:16px; font-weight:bold;
-    color:#000; background:linear-gradient(135deg,#ffd700,#ff8c00); cursor:pointer;
-    box-shadow:0 6px 20px rgba(255,215,0,0.5);
-  }
-  .btn-next:active { transform:scale(0.96); }
+  .feedback-sub { font-size:13px; color:#ddd; margin-bottom:20px; line-height:1.5; }
+  .btn-next { padding:14px 36px; border:none; border-radius:30px; font-size:16px; font-weight:bold; color:#000; background:linear-gradient(135deg,#ffd700,#ff8c00); cursor:pointer; box-shadow:0 6px 20px rgba(255,215,0,.5); }
+  .btn-next:active { transform:scale(.96); }
 
-  /* ===== REWARD SCREEN ===== */
-  .reward-screen {
-    flex:1; display:none; flex-direction:column; align-items:center; justify-content:center;
-    padding:24px; text-align:center; gap:16px;
-  }
+  .reward-screen { flex:1; display:none; flex-direction:column; align-items:center; justify-content:center; padding:24px; text-align:center; gap:16px; }
   .reward-screen.show { display:flex; }
-  .reward-badge {
-    width:160px; height:160px; border-radius:50%;
-    background:radial-gradient(circle,#fff8dc,#ffd700,#b8860b);
-    display:flex; align-items:center; justify-content:center; font-size:80px;
-    box-shadow:0 0 50px rgba(255,215,0,0.9); animation:spinBadge 1s cubic-bezier(0.68,-0.55,0.27,1.55);
-  }
+  .reward-badge { width:160px; height:160px; border-radius:50%; background:radial-gradient(circle,#fff8dc,#ffd700,#b8860b); display:flex; align-items:center; justify-content:center; font-size:80px; box-shadow:0 0 50px rgba(255,215,0,.9); animation:spinBadge 1s cubic-bezier(.68,-.55,.27,1.55); }
   @keyframes spinBadge { 0%{transform:scale(0) rotate(0);} 100%{transform:scale(1) rotate(360deg);} }
   .reward-screen h2 { color:#ffd700; font-size:24px; }
   .reward-screen p { color:#ccc; font-size:13px; line-height:1.6; }
-  .badge-count {
-    background:rgba(255,215,0,0.15); border:2px solid #ffd700; border-radius:12px;
-    padding:12px 20px; font-size:14px; color:#ffd700; font-weight:bold;
-  }
+  .badge-count { background:rgba(255,215,0,0.15); border:2px solid #ffd700; border-radius:12px; padding:12px 20px; font-size:14px; color:#ffd700; font-weight:bold; }
 
-  /* ===== BADGE COLLECTION ===== */
-  .badge-panel {
-    position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto;
-    background:rgba(0,0,0,0.9); backdrop-filter:blur(10px); border-top:2px solid #ffd700;
-    padding:10px 16px; display:flex; align-items:center; gap:10px; z-index:40;
-  }
-  .badge-panel .lbl { font-size:11px; color:#aaa; }
+  .badge-panel { position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto; background:rgba(0,0,0,0.9); backdrop-filter:blur(10px); border-top:2px solid #ffd700; padding:10px 16px; display:flex; align-items:center; gap:10px; z-index:40; }
+  .badge-panel .lbl { font-size:10px; color:#aaa; text-align:center; line-height:1.2; }
   .badge-panel .list { display:flex; gap:6px; flex:1; flex-wrap:wrap; }
-  .mini-badge {
-    width:28px; height:28px; border-radius:50%;
-    background:radial-gradient(circle,#ffd700,#b8860b);
-    display:flex; align-items:center; justify-content:center; font-size:14px;
-    box-shadow:0 0 8px rgba(255,215,0,0.6);
-  }
+  .mini-badge { width:28px; height:28px; border-radius:50%; background:radial-gradient(circle,#ffd700,#b8860b); display:flex; align-items:center; justify-content:center; font-size:14px; box-shadow:0 0 8px rgba(255,215,0,.6); }
   .mini-badge.empty { background:rgba(255,255,255,0.08); box-shadow:none; font-size:10px; color:#555; }
 
-  .toast {
-    position:fixed; top:70px; left:50%; transform:translateX(-50%);
-    background:rgba(0,0,0,0.9); border:2px solid #ffd700; color:#ffd700;
-    padding:10px 20px; border-radius:30px; font-size:13px; font-weight:bold;
-    z-index:200; display:none; white-space:nowrap;
-  }
+  .toast { position:fixed; top:70px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.9); border:2px solid #ffd700; color:#ffd700; padding:10px 20px; border-radius:30px; font-size:13px; font-weight:bold; z-index:200; display:none; white-space:nowrap; }
   .toast.show { display:block; animation:toastAnim 2s; }
   @keyframes toastAnim { 0%{opacity:0;transform:translate(-50%,-20px);} 15%{opacity:1;transform:translate(-50%,0);} 85%{opacity:1;} 100%{opacity:0;} }
 
-  .content-scroll { flex:1; overflow-y:auto; padding-bottom:70px; }
   .hidden { display:none !important; }
+  .content-scroll { flex:1; overflow-y:auto; }
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- HEADER -->
   <div class="header" id="header" style="display:none;">
     <div>
       <h1>🇮🇩 PKN QUEST</h1>
@@ -204,7 +109,6 @@
     <div class="level-badge" id="headerLevel">Level 1</div>
   </div>
 
-  <!-- SEMESTER SELECT SCREEN -->
   <div class="semester-screen" id="semesterScreen">
     <div class="logo-pkn">
       <div class="garuda">🦅</div>
@@ -212,11 +116,11 @@
       <p>Gamifikasi Pembelajaran PKN Kelas 10</p>
       <p style="margin-top:6px;color:#ffd700;font-size:11px;">Kurikulum Merdeka</p>
     </div>
-    <button class="btn-semester" onclick="selectSemester(1)">
+    <button class="btn-semester" id="btnSem1">
       <span class="t">📘 Semester 1</span>
       <span class="d">Bab 1 - Bab 3 (Level 1-3)</span>
     </button>
-    <button class="btn-semester sem2" onclick="selectSemester(2)">
+    <button class="btn-semester sem2" id="btnSem2">
       <span class="t">📗 Semester 2</span>
       <span class="d">Bab 4 - Bab 6 (Level 4-6)</span>
     </button>
@@ -225,40 +129,34 @@
     </div>
   </div>
 
-  <!-- LEVEL SCREEN -->
   <div class="level-screen hidden" id="levelScreen">
-    <div class="content-scroll">
-      <div class="level-title">
-        <h2 id="levelScreenTitle">Semester 1</h2>
-        <p id="levelScreenSub">Pilih bab untuk memulai kuis</p>
-      </div>
-      <div class="level-list" id="levelList"></div>
+    <div class="level-title">
+      <h2 id="levelScreenTitle">Semester 1</h2>
+      <p id="levelScreenSub">Pilih bab untuk memulai kuis</p>
     </div>
+    <div class="level-list" id="levelList"></div>
   </div>
 
-  <!-- QUIZ SCREEN -->
   <div class="quiz-screen hidden" id="quizScreen">
     <div class="quiz-top">
-      <button class="btn-back" onclick="backToLevels()">← Kembali</button>
+      <button class="btn-back" id="btnBack">← Kembali</button>
       <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
       <div class="q-counter" id="qCounter">1/10</div>
     </div>
-    <div class="content-scroll" style="padding-bottom:20px;">
+    <div class="content-scroll">
       <div class="question-box"><p id="questionText">Soal...</p></div>
       <div class="options" id="optionsContainer"></div>
     </div>
   </div>
 
-  <!-- REWARD SCREEN -->
   <div class="reward-screen" id="rewardScreen">
     <div class="reward-badge" id="rewardBadgeIcon">🏆</div>
     <h2 id="rewardTitle">Selamat!</h2>
     <p id="rewardText">Kamu berhasil menyelesaikan bab ini!</p>
     <div class="badge-count" id="badgeCountText">Badge Pancasila: 0/6</div>
-    <button class="btn-next" onclick="backToLevels()" style="margin-top:10px;">Lanjut Petualangan</button>
+    <button class="btn-next" id="btnRewardNext" style="margin-top:10px;">Lanjut Petualangan</button>
   </div>
 
-  <!-- BADGE PANEL -->
   <div class="badge-panel" id="badgePanel" style="display:none;">
     <div class="lbl">🛡️<br>Badge</div>
     <div class="list" id="badgeList"></div>
@@ -266,110 +164,482 @@
 
 </div>
 
-<!-- FEEDBACK OVERLAY -->
 <div class="feedback-overlay" id="feedbackOverlay">
   <canvas id="flagCanvas"></canvas>
   <div class="feedback-content">
     <div class="pancasila-icon" id="feedbackIcon">🛡️</div>
     <div class="feedback-text" id="feedbackText">Benar!</div>
     <div class="feedback-sub" id="feedbackSub"></div>
-    <button class="btn-next" id="feedbackBtn" onclick="handleFeedbackNext()">Lanjut →</button>
+    <button class="btn-next" id="feedbackBtn">Lanjut →</button>
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
 /* ============================================================
-   DATA MATERI PKN KELAS 10 KURIKULUM MERDEKA
+   DATA MATERI PKN KELAS 10 KURIKULUM MERDEKA - 2 SEMESTER
    ============================================================ */
 const MATERI = {
-  1: {
-    semester: 1,
-    bab: "BAB 1",
-    nama: "Pancasila sebagai Pemersatu Bangsa",
-    icon: "🦅",
-    soal: [
-      { q: "Pancasila sebagai dasar negara Indonesia pertama kali dirumuskan oleh...", o: ["Soekarno", "Moh. Yamin", "Soepomo", "BPUPKI"], a: 0, e: "Ir. Soekarno menyampaikan gagasan dasar negara pada sidang BPUPKI 1 Juni 1945." },
-      { q: "Sidang BPUPKI pertama dilaksanakan pada tanggal...", o: ["29 Mei - 1 Juni 1945", "10 - 17 Juli 1945", "17 Agustus 1945", "1 Oktober 1945"], a: 0, e: "Sidang pertama BPUPKI berlangsung 29 Mei hingga 1 Juni 1945." },
-      { q: "Nilai-nilai Pancasila yang bersumber pada hakikat manusia sebagai makhluk Tuhan disebut nilai...", o: ["Material", "Vital", "Spiritual", "Kerohanian"], a: 2, e: "Nilai spiritual bersumber pada hakikat manusia sebagai makhluk Tuhan." },
-      { q: "Sila ke-3 Pancasila dilambangkan dengan...", o: ["Bintang", "Rantai", "Pohon Beringin", "Kepala Banteng"], a: 2, e: "Sila ke-3 'Persatuan Indonesia' dilambangkan dengan Pohon Beringin." },
-      { q: "Pancasila sebagai ideologi terbuka memiliki ciri...", o: ["Bersifat tertutup", "Kaku dan statis", "Dinamis dan fleksibel", "Tidak dapat diubah"], a: 2, e: "Ideologi terbuka bersifat dinamis, fleksibel, dan dapat berkembang." },
-      { q: "Fungsi Pancasila sebagai pandangan hidup bangsa berarti...", o: ["Alat pemersatu", "Pedoman hidup sehari-hari", "Dasar hukum", "Sumber hukum"], a: 1, e: "Sebagai pandangan hidup, Pancasila menjadi pedoman perilaku sehari-hari." },
-      { q: "Piagam Jakarta disahkan pada tanggal...", o: ["22 Juni 1945", "1 Juni 1945", "17 Juli 1945", "18 Agustus 1945"], a: 0, e: "Piagam Jakarta disepakati pada 22 Juni 1945." },
-      { q: "Sila ke-5 Pancasila mengandung nilai...", o: ["Ketuhanan", "Kemanusiaan", "Persatuan", "Keadilan sosial"], a: 3, e: "Sila ke-5: Keadilan sosial bagi seluruh rakyat Indonesia." },
-      { q: "BPUPKI dibentuk oleh pemerintah Jepang pada tanggal...", o: ["1 Maret 1945", "29 April 1945", "7 Agustus 1945", "17 Agustus 1945"], a: 0, e: "BPUPKI dibentuk 1 Maret 1945 oleh Jepang." },
-      { q: "Pancasila sebagai dasar negara tercantum dalam pembukaan UUD 1945 pada alinea...", o: ["Pertama", "Kedua", "Ketiga", "Keempat"], a: 3, e: "Pancasila tercantum pada alinea keempat Pembukaan UUD 1945." }
-    ]
-  },
-  2: {
-    semester: 1,
-    bab: "BAB 2",
-    nama: "UUD NRI Tahun 1945",
-    icon: "📜",
-    soal: [
-      { q: "UUD NRI Tahun 1945 disahkan pada tanggal...", o: ["17 Agustus 1945", "18 Agustus 1945", "1 Juni 1945", "22 Juni 1945"], a: 1, e: "UUD 1945 disahkan oleh PPKI pada 18 Agustus 1945." },
-      { q: "Sifat UUD NRI 1945 menurut Miriam Budiardjo adalah...", o: ["Kaku", "Fleksibel", "Rigid dan fleksibel", "Statis"], a: 2, e: "UUD 1945 bersifat rigid (kaku) dan fleksibel." },
-      { q: "Amandemen UUD 1945 telah dilakukan sebanyak...", o: ["2 kali", "3 kali", "4 kali", "5 kali"], a: 2, e: "Amandemen UUD 1945 dilakukan 4 kali (1999-2002)." },
-      { q: "Lembaga yang berwenang mengubah UUD adalah...", o: ["DPR", "MPR", "Presiden", "MA"], a: 1, e: "MPR berwenang mengubah dan menetapkan UUD." },
-      { q: "Pasal 1 ayat (1) UUD 1945 menyatakan Indonesia adalah negara...", o: ["Serikat", "Kesatuan", "Federal", "Republik"], a: 1, e: "Negara Kesatuan Republik Indonesia (NKRI)." },
-      { q: "Tujuan negara Indonesia tercantum dalam pembukaan UUD 1945 alinea...", o: ["Pertama", "Kedua", "Ketiga", "Keempat"], a: 3, e: "Tujuan negara ada pada alinea keempat." },
-      { q: "UUD 1945 terdiri atas...", o: ["Pembukaan, Batang Tubuh, Penjelasan", "Pasal dan Ayat", "Batang Tubuh saja", "Pembukaan saja"], a: 0, e: "Sebelum amandemen: Pembukaan, Batang Tubuh, Penjelasan." },
-      { q: "Lembaga negara yang memegang kekuasaan yudikatif adalah...", o: ["DPR", "Presiden", "MA", "MPR"], a: 2, e: "Kekuasaan yudikatif dipegang Mahkamah Agung dan badan peradilan." },
-      { q: "Sistem pemerintahan Indonesia menganut...", o: ["Presidensial", "Parlementer", "Campuran", "Liberal"], a: 0, e: "Indonesia menganut sistem pemerintahan presidensial." },
-      { q: "Pasal 27 ayat (1) UUD 1945 mengatur tentang...", o: ["Kebebasan beragama", "Persamaan kedudukan di hukum", "Hak pendidikan", "Hak memilih"], a: 1, e: "Segala warga negara bersamaan kedudukannya di dalam hukum." }
-    ]
-  },
-  3: {
-    semester: 1,
-    bab: "BAB 3",
-    nama: "Tata Urutan Peraturan Perundang-undangan",
-    icon: "⚖️",
-    soal: [
-      { q: "Hierarki peraturan perundang-undangan tertinggi di Indonesia adalah...", o: ["UUD 1945", "TAP MPR", "UU", "Perpres"], a: 0, e: "UUD NRI 1945 adalah hukum dasar tertinggi." },
-      { q: "UU No. 12 Tahun 2011 mengatur tentang...", o: ["Pemilu", "Pembentukan Peraturan Perundang-undangan", "HAM", "Korupsi"], a: 1, e: "UU No. 12/2011 tentang Pembentukan Peraturan Perundang-undangan." },
-      { q: "Peraturan yang dibuat oleh Presiden untuk melaksanakan UU disebut...", o: ["Perpres", "Perda", "Perppu", "Kepres"], a: 0, e: "Peraturan Presiden (Perpres) dibuat untuk menjalankan UU." },
-      { q: "Peraturan Daerah (Perda) ditetapkan oleh...", o: ["Gubernur", "DPRD dengan persetujuan Kepala Daerah", "Menteri", "Presiden"], a: 1, e: "Perda ditetapkan oleh DPRD dengan persetujuan Kepala Daerah." },
-      { q: "Perppu adalah singkatan dari...", o: ["Peraturan Pemerintah Pusat", "Peraturan Presiden", "Peraturan Pemerintah Pengganti Undang-Undang", "Peraturan Pemerintah"], a: 2, e: "Perppu = Peraturan Pemerintah Pengganti Undang-Undang." },
-      { q: "Tata urutan perundang-undangan diatur dalam UU No...", o: ["10 Tahun 2004", "12 Tahun 2011", "17 Tahun 2014", "22 Tahun 1999"], a: 1, e: "UU No. 12 Tahun 2011 tentang Pembentukan Peraturan Perundang-undangan." },
-      { q: "Peraturan Pemerintah ditetapkan oleh...", o: ["DPR", "Presiden", "MPR", "MA"], a: 1, e: "Peraturan Pemerintah ditetapkan oleh Presiden." },
-      { q: "Asas perundang-undangan yang berarti dapat dilaksanakan adalah...", o: ["Lex superior", "Lex specialis", "Lex posterior", "Dapat dilaksanakan"], a: 3, e: "Asas dapat dilaksanakan (dapat diterapkan dalam praktik)." },
-      { q: "Peraturan yang lebih rendah tidak boleh bertentangan dengan peraturan yang lebih tinggi merupakan asas...", o: ["Lex superior derogat legi inferiori", "Lex specialis", "Lex posterior", "Lex aequo"], a: 0, e: "Asas lex superior: peraturan lebih tinggi mengalahkan yang lebih rendah." },
-      { q: "TAP MPR termasuk dalam hierarki perundang-undangan di bawah...", o: ["UUD 1945", "UU", "Perpres", "Perda"], a: 0, e: "TAP MPR berada tepat di bawah UUD 1945." }
-    ]
-  },
-  4: {
-    semester: 2,
-    bab: "BAB 4",
-    nama: "Bhinneka Tunggal Ika",
-    icon: "🌏",
-    soal: [
-      { q: "Semboyan Bhinneka Tunggal Ika berasal dari kitab...", o: ["Negarakertagama", "Sutasoma", "Ramayana", "Mahabharata"], a: 1, e: "Berasal dari Kitab Sutasoma karya Mpu Tantular." },
-      { q: "Arti Bhinneka Tunggal Ika adalah...", o: ["Berbeda-beda tetapi tetap satu", "Satu untuk semua", "Bersatu kita kuat", "Berbeda itu indah"], a: 0, e: "Berbeda-beda tetapi tetap satu jua." },
-      { q: "Bhinneka Tunggal Ika diatur dalam UUD 1945 pasal...", o: ["Pasal 35", "Pasal 36", "Pasal 36A", "Pasal 37"], a: 2, e: "Pasal 36A: Lambang negara Garuda Pancasila dengan semboyan Bhinneka Tunggal Ika." },
-      { q: "Keberagaman suku bangsa di Indonesia mencapai...", o: ["500 suku", "1.000 suku", "1.340 suku", "2.000 suku"], a: 2, e: "Indonesia memiliki sekitar 1.340 suku bangsa." },
-      { q: "Sikap menghargai perbedaan agama disebut...", o: ["Toleransi", "Egois", "Diskriminasi", "Radikal"], a: 0, e: "Toleransi adalah sikap menghargai perbedaan." },
-      { q: "Gotong royong merupakan wujud nilai sila ke...", o: ["1", "2", "3", "4"], a: 2, e: "Gotong royong mencerminkan sila ke-3 Persatuan Indonesia." },
-      { q: "Bahasa persatuan Indonesia adalah...", o: ["Bahasa Jawa", "Bahasa Indonesia", "Bahasa Melayu", "Bahasa Sunda"], a: 1, e: "Bahasa Indonesia adalah bahasa persatuan." },
-      { q: "Faktor yang mempersatukan keberagaman Indonesia adalah...", o: ["Sumpah Pemuda", "Perbedaan", "Konflik", "Egoisme"], a: 0, e: "Sumpah Pemuda 28 Oktober 1928 mempersatukan bangsa." },
-      { q: "Sikap yang harus dihindari dalam keberagaman adalah...", o: ["Toleransi", "Saling menghormati", "Etnosentrisme", "Gotong royong"], a: 2, e: "Etnosentrisme (menganggap sukunya paling baik) harus dihindari." },
-      { q: "Keragaman budaya Indonesia merupakan...", o: ["Kelemahan bangsa", "Kekayaan bangsa", "Beban negara", "Masalah sosial"], a: 1, e: "Keberagaman adalah kekayaan dan kekuatan bangsa." }
-    ]
-  },
-  5: {
-    semester: 2,
-    bab: "BAB 5",
-    nama: "Harmoni dalam Keberagaman",
-    icon: "🤝",
-    soal: [
-      { q: "Harmoni dalam keberagaman berarti...", o: ["Keselarasan dalam perbedaan", "Menyeragamkan semua", "Menghilangkan perbedaan", "Memisahkan diri"], a: 0, e: "Harmoni berarti keselarasan hidup dalam perbedaan." },
-      { q: "Sikap yang mendukung harmoni keberagaman adalah...", o: ["Primordialisme", "Toleransi", "Diskriminasi", "Rasisme"], a: 1, e: "Toleransi mendukung terciptanya harmoni." },
-      { q: "Konflik SARA dapat dicegah dengan cara...", o: ["Dialog antarumat", "Provokasi", "Diskriminasi", "Isolasi"], a: 0, e: "Dialog antarumat beragama mencegah konflik SARA." },
-      { q: "Contoh harmoni dalam keberagaman di sekolah adalah...", o: ["Berteman hanya dengan yang sama suku", "Menghargai teman berbeda agama", "Menjauhi teman berbeda", "Memilih kelompok tertentu"], a: 1, e: "Menghargai teman berbeda agama mencerminkan harmoni." },
-      { q: "Kegiatan gotong royong membersihkan lingkungan mencerminkan...", o: ["Individualisme", "Harmoni sosial", "Konflik", "Persaingan"], a: 1, e: "Gotong royong menciptakan harmoni sosial." },
-      { q: "Semboyan 'Bersatu Kita Teguh, Bercerai Kita Runtuh' mengajarkan...", o: ["Pentingnya persatuan", "Pentingnya perpecahan", "Pentingnya individu", "Pentingnya konflik"], a: 0, e: "Persatuan adalah kunci kekuatan bangsa." },
-      { q: "Perilaku yang mencerminkan harmoni keberagaman di masyarakat adalah...", o: ["Kerja bakti lintas suku", "Tawuran antarwarga", "Mengucilkan minoritas", "Membuat kelompok eksklusif"], a: 0, e: "Kerja bakti lintas suku mempererat persatuan." },
-      { q: "Toleransi beragama diatur dalam UUD 1945 pasal...", o: ["Pasal 28E ayat 1", "Pasal 30", "Pasal 33", "Pasal 34"], a: 0, e: "Pasal 28E ayat (1) menjamin kebebasan beragama." },
-      { q: "Manfaat harmoni dalam keberagaman adalah...", o: ["Terciptanya perdamaian", "Timbulnya konflik", "Perpecahan bangsa", "Ketidakstabilan"], a: 0, e: "Harmoni menciptakan perdamaian dan stabilitas." },
-      { q: "Sikap yang perlu dikembangkan untuk menjaga harmoni adalah...", o: ["Egoisme
+  /* ============ SEMESTER 1 ============ */
+  1: { semester:1, bab:"BAB 1", nama:"Pancasila sebagai Pemersatu Bangsa", icon:"🦅", soal:[
+    { q:"Pancasila sebagai dasar negara Indonesia pertama kali dirumuskan oleh...", o:["Soekarno","Moh. Yamin","Soepomo","BPUPKI"], a:0, e:"Ir. Soekarno menyampaikan gagasan dasar negara pada sidang BPUPKI 1 Juni 1945." },
+    { q:"Sidang BPUPKI pertama dilaksanakan pada tanggal...", o:["29 Mei - 1 Juni 1945","10 - 17 Juli 1945","17 Agustus 1945","1 Oktober 1945"], a:0, e:"Sidang pertama BPUPKI berlangsung 29 Mei hingga 1 Juni 1945." },
+    { q:"Nilai-nilai Pancasila yang bersumber pada hakikat manusia sebagai makhluk Tuhan disebut nilai...", o:["Material","Vital","Spiritual","Kerohanian"], a:2, e:"Nilai spiritual bersumber pada hakikat manusia sebagai makhluk Tuhan." },
+    { q:"Sila ke-3 Pancasila dilambangkan dengan...", o:["Bintang","Rantai","Pohon Beringin","Kepala Banteng"], a:2, e:"Sila ke-3 'Persatuan Indonesia' dilambangkan Pohon Beringin." },
+    { q:"Pancasila sebagai ideologi terbuka memiliki ciri...", o:["Bersifat tertutup","Kaku dan statis","Dinamis dan fleksibel","Tidak dapat diubah"], a:2, e:"Ideologi terbuka bersifat dinamis, fleksibel, dan berkembang." },
+    { q:"Fungsi Pancasila sebagai pandangan hidup bangsa berarti...", o:["Alat pemersatu","Pedoman hidup sehari-hari","Dasar hukum","Sumber hukum"], a:1, e:"Sebagai pandangan hidup, Pancasila jadi pedoman perilaku sehari-hari." },
+    { q:"Piagam Jakarta disahkan pada tanggal...", o:["22 Juni 1945","1 Juni 1945","17 Juli 1945","18 Agustus 1945"], a:0, e:"Piagam Jakarta disepakati pada 22 Juni 1945." },
+    { q:"Sila ke-5 Pancasila mengandung nilai...", o:["Ketuhanan","Kemanusiaan","Persatuan","Keadilan sosial"], a:3, e:"Sila ke-5: Keadilan sosial bagi seluruh rakyat Indonesia." },
+    { q:"BPUPKI dibentuk oleh pemerintah Jepang pada tanggal...", o:["1 Maret 1945","29 April 1945","7 Agustus 1945","17 Agustus 1945"], a:0, e:"BPUPKI dibentuk 1 Maret 1945 oleh Jepang." },
+    { q:"Pancasila sebagai dasar negara tercantum dalam Pembukaan UUD 1945 alinea...", o:["Pertama","Kedua","Ketiga","Keempat"], a:3, e:"Pancasila tercantum pada alinea keempat Pembukaan UUD 1945." }
+  ]},
+
+  2: { semester:1, bab:"BAB 2", nama:"UUD NRI Tahun 1945", icon:"📜", soal:[
+    { q:"UUD NRI Tahun 1945 disahkan pada tanggal...", o:["17 Agustus 1945","18 Agustus 1945","1 Juni 1945","22 Juni 1945"], a:1, e:"UUD 1945 disahkan PPKI pada 18 Agustus 1945." },
+    { q:"Sifat UUD NRI 1945 menurut Miriam Budiardjo adalah...", o:["Kaku","Fleksibel","Rigid dan fleksibel","Statis"], a:2, e:"UUD 1945 bersifat rigid (kaku) dan fleksibel." },
+    { q:"Amandemen UUD 1945 telah dilakukan sebanyak...", o:["2 kali","3 kali","4 kali","5 kali"], a:2, e:"Amandemen UUD 1945 dilakukan 4 kali (1999-2002)." },
+    { q:"Lembaga yang berwenang mengubah UUD adalah...", o:["DPR","MPR","Presiden","MA"], a:1, e:"MPR berwenang mengubah dan menetapkan UUD." },
+    { q:"Pasal 1 ayat (1) UUD 1945 menyatakan Indonesia adalah negara...", o:["Serikat","Kesatuan","Federal","Republik"], a:1, e:"Negara Kesatuan Republik Indonesia (NKRI)." },
+    { q:"Tujuan negara Indonesia tercantum dalam Pembukaan UUD 1945 alinea...", o:["Pertama","Kedua","Ketiga","Keempat"], a:3, e:"Tujuan negara ada pada alinea keempat." },
+    { q:"Sebelum amandemen, UUD 1945 terdiri atas...", o:["Pembukaan, Batang Tubuh, Penjelasan","Pasal dan Ayat","Batang Tubuh saja","Pembukaan saja"], a:0, e:"Pembukaan, Batang Tubuh, dan Penjelasan." },
+    { q:"Lembaga negara yang memegang kekuasaan yudikatif adalah...", o:["DPR","Presiden","MA","MPR"], a:2, e:"Kekuasaan yudikatif dipegang Mahkamah Agung dan badan peradilan." },
+    { q:"Sistem pemerintahan Indonesia menganut...", o:["Presidensial","Parlementer","Campuran","Liberal"], a:0, e:"Indonesia menganut sistem pemerintahan presidensial." },
+    { q:"Pasal 27 ayat (1) UUD 1945 mengatur tentang...", o:["Kebebasan beragama","Persamaan kedudukan di hukum","Hak pendidikan","Hak memilih"], a:1, e:"Segala warga negara bersamaan kedudukannya di dalam hukum." }
+  ]},
+
+  3: { semester:1, bab:"BAB 3", nama:"Tata Urutan Peraturan Perundang-undangan", icon:"⚖️", soal:[
+    { q:"Hierarki peraturan perundang-undangan tertinggi di Indonesia adalah...", o:["UUD 1945","TAP MPR","UU","Perpres"], a:0, e:"UUD NRI 1945 adalah hukum dasar tertinggi." },
+    { q:"UU No. 12 Tahun 2011 mengatur tentang...", o:["Pemilu","Pembentukan Peraturan Perundang-undangan","HAM","Korupsi"], a:1, e:"UU No. 12/2011 tentang Pembentukan Peraturan Perundang-undangan." },
+    { q:"Peraturan yang dibuat Presiden untuk melaksanakan UU disebut...", o:["Perpres","Perda","Perppu","Kepres"], a:0, e:"Peraturan Presiden (Perpres) dibuat untuk menjalankan UU." },
+    { q:"Peraturan Daerah (Perda) ditetapkan oleh...", o:["Gubernur","DPRD dengan persetujuan Kepala Daerah","Menteri","Presiden"], a:1, e:"Perda ditetapkan DPRD dengan persetujuan Kepala Daerah." },
+    { q:"Perppu adalah singkatan dari...", o:["Peraturan Pemerintah Pusat","Peraturan Presiden","Peraturan Pemerintah Pengganti Undang-Undang","Peraturan Pemerintah"], a:2, e:"Perppu = Peraturan Pemerintah Pengganti Undang-Undang." },
+    { q:"Tata urutan perundang-undangan diatur dalam UU No...", o:["10 Tahun 2004","12 Tahun 2011","17 Tahun 2014","22 Tahun 1999"], a:1, e:"UU No. 12 Tahun 2011 tentang Pembentukan Peraturan Perundang-undangan." },
+    { q:"Peraturan Pemerintah ditetapkan oleh...", o:["DPR","Presiden","MPR","MA"], a:1, e:"Peraturan Pemerintah ditetapkan oleh Presiden." },
+    { q:"Asas perundang-undangan yang berarti dapat dilaksanakan adalah...", o:["Lex superior","Lex specialis","Lex posterior","Dapat dilaksanakan"], a:3, e:"Asas dapat dilaksanakan (dapat diterapkan dalam praktik)." },
+    { q:"Peraturan lebih rendah tidak boleh bertentangan dengan yang lebih tinggi merupakan asas...", o:["Lex superior derogat legi inferiori","Lex specialis","Lex posterior","Lex aequo"], a:0, e:"Asas lex superior: peraturan lebih tinggi mengalahkan yang lebih rendah." },
+    { q:"TAP MPR termasuk dalam hierarki perundang-undangan di bawah...", o:["UUD 1945","UU","Perpres","Perda"], a:0, e:"TAP MPR berada tepat di bawah UUD 1945." }
+  ]},
+
+  /* ============ SEMESTER 2 ============ */
+  4: { semester:2, bab:"BAB 4", nama:"Bhinneka Tunggal Ika", icon:"🌏", soal:[
+    { q:"Semboyan Bhinneka Tunggal Ika berasal dari kitab...", o:["Negarakertagama","Sutasoma","Ramayana","Mahabharata"], a:1, e:"Berasal dari Kitab Sutasoma karya Mpu Tantular." },
+    { q:"Arti Bhinneka Tunggal Ika adalah...", o:["Berbeda-beda tetapi tetap satu","Satu untuk semua","Bersatu kita kuat","Berbeda itu indah"], a:0, e:"Berbeda-beda tetapi tetap satu jua." },
+    { q:"Bhinneka Tunggal Ika diatur dalam UUD 1945 pasal...", o:["Pasal 35","Pasal 36","Pasal 36A","Pasal 37"], a:2, e:"Pasal 36A: Lambang negara Garuda Pancasila dengan semboyan Bhinneka Tunggal Ika." },
+    { q:"Keberagaman suku bangsa di Indonesia mencapai...", o:["500 suku","1.000 suku","1.340 suku","2.000 suku"], a:2, e:"Indonesia memiliki sekitar 1.340 suku bangsa." },
+    { q:"Sikap menghargai perbedaan agama disebut...", o:["Toleransi","Egois","Diskriminasi","Radikal"], a:0, e:"Toleransi adalah sikap menghargai perbedaan." },
+    { q:"Gotong royong merupakan wujud nilai sila ke...", o:["1","2","3","4"], a:2, e:"Gotong royong mencerminkan sila ke-3 Persatuan Indonesia." },
+    { q:"Bahasa persatuan Indonesia adalah...", o:["Bahasa Jawa","Bahasa Indonesia","Bahasa Melayu","Bahasa Sunda"], a:1, e:"Bahasa Indonesia adalah bahasa persatuan." },
+    { q:"Faktor yang mempersatukan keberagaman Indonesia adalah...", o:["Sumpah Pemuda","Perbedaan","Konflik","Egoisme"], a:0, e:"Sumpah Pemuda 28 Oktober 1928 mempersatukan bangsa." },
+    { q:"Sikap yang harus dihindari dalam keberagaman adalah...", o:["Toleransi","Saling menghormati","Etnosentrisme","Gotong royong"], a:2, e:"Etnosentrisme harus dihindari." },
+    { q:"Keragaman budaya Indonesia merupakan...", o:["Kelemahan bangsa","Kekayaan bangsa","Beban negara","Masalah sosial"], a:1, e:"Keberagaman adalah kekayaan dan kekuatan bangsa." }
+  ]},
+
+  5: { semester:2, bab:"BAB 5", nama:"Harmoni dalam Keberagaman", icon:"🤝", soal:[
+    { q:"Harmoni dalam keberagaman berarti...", o:["Keselarasan dalam perbedaan","Menyeragamkan semua","Menghilangkan perbedaan","Memisahkan diri"], a:0, e:"Harmoni berarti keselarasan hidup dalam perbedaan." },
+    { q:"Sikap yang mendukung harmoni keberagaman adalah...", o:["Primordialisme","Toleransi","Diskriminasi","Rasisme"], a:1, e:"Toleransi mendukung terciptanya harmoni." },
+    { q:"Konflik SARA dapat dicegah dengan cara...", o:["Dialog antarumat","Provokasi","Diskriminasi","Isolasi"], a:0, e:"Dialog antarumat beragama mencegah konflik SARA." },
+    { q:"Contoh harmoni dalam keberagaman di sekolah adalah...", o:["Berteman hanya dengan yang sama suku","Menghargai teman berbeda agama","Menjauhi teman berbeda","Memilih kelompok tertentu"], a:1, e:"Menghargai teman berbeda agama mencerminkan harmoni." },
+    { q:"Gotong royong membersihkan lingkungan mencerminkan...", o:["Individualisme","Harmoni sosial","Konflik","Persaingan"], a:1, e:"Gotong royong menciptakan harmoni sosial." },
+    { q:"Semboyan 'Bersatu Kita Teguh, Bercerai Kita Runtuh' mengajarkan...", o:["Pentingnya persatuan","Pentingnya perpecahan","Pentingnya individu","Pentingnya konflik"], a:0, e:"Persatuan adalah kunci kekuatan bangsa." },
+    { q:"Perilaku yang mencerminkan harmoni keberagaman di masyarakat adalah...", o:["Kerja bakti lintas suku","Tawuran antarwarga","Mengucilkan minoritas","Membuat kelompok eksklusif"], a:0, e:"Kerja bakti lintas suku mempererat persatuan." },
+    { q:"Toleransi beragama diatur dalam UUD 1945 pasal...", o:["Pasal 28E ayat 1","Pasal 30","Pasal 33","Pasal 34"], a:0, e:"Pasal 28E ayat (1) menjamin kebebasan beragama." },
+    { q:"Manfaat harmoni dalam keberagaman adalah...", o:["Terciptanya perdamaian","Timbulnya konflik","Perpecahan bangsa","Ketidakstabilan"], a:0, e:"Harmoni menciptakan perdamaian dan stabilitas." },
+    { q:"Sikap yang perlu dikembangkan untuk menjaga harmoni adalah...", o:["Egoisme","Intoleransi","Saling menghargai","Acuh tak acuh"], a:2, e:"Saling menghargai kunci harmoni." }
+  ]},
+
+  6: { semester:2, bab:"BAB 6", nama:"Ancaman terhadap Negara & Bela Negara", icon:"🛡️", soal:[
+    { q:"Ancaman yang berasal dari dalam negeri disebut ancaman...", o:["Eksternal","Internal","Global","Regional"], a:1, e:"Ancaman internal berasal dari dalam negeri." },
+    { q:"Sikap bela negara diatur dalam UUD 1945 pasal...", o:["Pasal 27 ayat 3","Pasal 30","Pasal 31","Pasal 33"], a:0, e:"Pasal 27 ayat (3): hak dan kewajiban bela negara." },
+    { q:"Contoh ancaman non-militer adalah...", o:["Invasi","Propaganda & narkoba","Perang","Serangan militer"], a:1, e:"Ancaman non-militer: ideologi, politik, ekonomi, sosial, budaya." },
+    { q:"Bentuk bela negara bagi pelajar adalah...", o:["Belajar giat & taat hukum","Tawuran","Bolos sekolah","Menyebar hoaks"], a:0, e:"Pelajar bela negara dengan belajar giat dan taat hukum." },
+    { q:"Sistem pertahanan Indonesia bersifat...", o:["Semesta","Parsial","Eksklusif","Individu"], a:0, e:"Sistem pertahanan semesta melibatkan seluruh rakyat." },
+    { q:"Komponen utama pertahanan negara adalah...", o:["TNI","Polisi","Satpol PP","Hansip"], a:0, e:"TNI adalah komponen utama pertahanan negara." },
+    { q:"Ancaman terhadap ideologi Pancasila contohnya...", o:["Komunisme","Gotong royong","Musyawarah","Toleransi"], a:0, e:"Komunisme bertentangan dengan Pancasila." },
+    { q:"Pasal 30 UUD 1945 mengatur tentang...", o:["Pertahanan & keamanan negara","Pendidikan","Ekonomi","HAM"], a:0, e:"Pasal 30 mengatur pertahanan dan keamanan negara." },
+    { q:"Wujud cinta tanah air di sekolah adalah...", o:["Upacara bendera","Membuang sampah","Mencontek","Berkelahi"], a:0, e:"Upacara bendera wujud cinta tanah air." },
+    { q:"Sifat ancaman terhadap negara dapat berupa...", o:["Militer & non-militer","Hanya militer","Hanya ekonomi","Hanya sosial"], a:0, e:"Ancaman bisa militer dan non-militer." }
+  ]}
+};
+
+const TOTAL_BADGE = 6;
+
+/* ============================================================
+   STATE + STORAGE (JSON)
+   ============================================================ */
+let state = {
+  unlockedLevel: 1,
+  completed: {},
+  badges: 0,
+  currentSemester: 1,
+  currentLevel: 1,
+  currentQ: 0,
+  correctCount: 0,
+  wrongThisLevel: 0,
+  answered: false
+};
+
+function saveState() {
+  try { localStorage.setItem('pknQuestData', JSON.stringify(state)); } catch(e){}
+}
+function loadState() {
+  try {
+    const raw = localStorage.getItem('pknQuestData');
+    if (raw) {
+      const d = JSON.parse(raw);
+      state.unlockedLevel = d.unlockedLevel || 1;
+      state.completed = d.completed || {};
+      state.badges = d.badges || 0;
+    }
+  } catch(e){}
+}
+
+/* ============================================================
+   NAVIGASI
+   ============================================================ */
+const el = id => document.getElementById(id);
+
+function showScreen(name) {
+  ['semesterScreen','levelScreen','quizScreen','rewardScreen'].forEach(s => {
+    el(s).classList.add('hidden');
+    el(s).classList.remove('show');
+  });
+  el('header').style.display = 'none';
+  el('badgePanel').style.display = 'none';
+
+  if (name === 'semester') {
+    el('semesterScreen').classList.remove('hidden');
+  } else if (name === 'level') {
+    el('levelScreen').classList.remove('hidden');
+    el('header').style.display = 'flex';
+    renderLevels();
+  } else if (name === 'quiz') {
+    el('quizScreen').classList.remove('hidden');
+    el('header').style.display = 'flex';
+    el('badgePanel').style.display = 'flex';
+  } else if (name === 'reward') {
+    el('rewardScreen').classList.add('show');
+    el('header').style.display = 'flex';
+    el('badgePanel').style.display = 'flex';
+  }
+  renderBadgePanel();
+}
+
+/* ============================================================
+   SEMESTER -> LEVEL
+   ============================================================ */
+el('btnSem1').addEventListener('click', () => selectSemester(1));
+el('btnSem2').addEventListener('click', () => selectSemester(2));
+
+function selectSemester(sem) {
+  state.currentSemester = sem;
+  el('levelScreenTitle').textContent = 'Semester ' + sem;
+  el('levelScreenSub').textContent = sem === 1
+    ? 'Bab 1 - Bab 3 (Level 1-3)'
+    : 'Bab 4 - Bab 6 (Level 4-6)';
+  el('headerLevel').textContent = 'Semester ' + sem;
+  el('headerSub').textContent = 'Kurikulum Merdeka - Kelas 10';
+  showScreen('level');
+}
+
+/* ============================================================
+   RENDER LEVEL LIST
+   ============================================================ */
+function renderLevels() {
+  const list = el('levelList');
+  list.innerHTML = '';
+  const start = state.currentSemester === 1 ? 1 : 4;
+  const end = state.currentSemester === 1 ? 3 : 6;
+
+  for (let lv = start; lv <= end; lv++) {
+    const m = MATERI[lv];
+    const done = !!state.completed[lv];
+    const locked = lv > state.unlockedLevel;
+    const card = document.createElement('div');
+    card.className = 'level-card' + (locked ? ' locked' : '') + (done ? ' done' : '');
+    card.innerHTML = `
+      <div class="level-num">${locked ? '🔒' : lv}</div>
+      <div class="level-info">
+        <div class="bab">${m.bab}</div>
+        <div class="name">${m.nama}</div>
+        <div class="stars">${done ? '⭐ Selesai • Badge diperoleh' : (locked ? 'Terkunci' : '▶ Mulai Kuis (10 soal)')}</div>
+      </div>
+      <div class="lock-icon">${done ? '✅' : (locked ? '🔒' : '➜')}</div>
+    `;
+    if (!locked) card.addEventListener('click', () => startQuiz(lv));
+    list.appendChild(card);
+  }
+}
+
+el('btnBack').addEventListener('click', backToLevels);
+function backToLevels() {
+  el('feedbackOverlay').classList.remove('show');
+  stopFlagAnimation();
+  showScreen('level');
+}
+
+/* ============================================================
+   QUIZ
+   ============================================================ */
+function startQuiz(lv) {
+  state.currentLevel = lv;
+  state.currentQ = 0;
+  state.correctCount = 0;
+  state.wrongThisLevel = 0;
+  state.answered = false;
+  el('headerLevel').textContent = 'Level ' + lv;
+  el('headerSub').textContent = MATERI[lv].bab + ' - ' + MATERI[lv].nama;
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const m = MATERI[state.currentLevel];
+  const soal = m.soal[state.currentQ];
+  state.answered = false;
+
+  el('qCounter').textContent = (state.currentQ + 1) + '/' + m.soal.length;
+  el('progressBar').style.width = (state.currentQ / m.soal.length * 100) + '%';
+  el('questionText').textContent = soal.q;
+
+  const cont = el('optionsContainer');
+  cont.innerHTML = '';
+  const keys = ['A','B','C','D'];
+  soal.o.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="key">${keys[i]}</span><span>${opt}</span>`;
+    btn.addEventListener('click', () => answerQuestion(i, btn));
+    cont.appendChild(btn);
+  });
+}
+
+function answerQuestion(idx, btn) {
+  if (state.answered) return;
+  state.answered = true;
+  const m = MATERI[state.currentLevel];
+  const soal = m.soal[state.currentQ];
+  const allBtns = el('optionsContainer').querySelectorAll('.option-btn');
+  allBtns.forEach(b => b.disabled = true);
+
+  const isCorrect = idx === soal.a;
+  if (isCorrect) {
+    btn.classList.add('correct');
+    state.correctCount++;
+  } else {
+    btn.classList.add('wrong');
+    allBtns[soal.a].classList.add('correct');
+    state.wrongThisLevel++;
+  }
+
+  setTimeout(() => showFeedback(isCorrect, soal.e), 450);
+}
+
+/* ============================================================
+   FEEDBACK OVERLAY + CANVAS BENDERA
+   ============================================================ */
+const overlay = el('feedbackOverlay');
+const canvas = el('flagCanvas');
+const ctx = canvas.getContext('2d');
+let animId = null, animStart = 0, flagWave = true;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+
+function showFeedback(correct, explanation) {
+  resizeCanvas();
+  el('feedbackIcon').textContent = '🛡️';
+  el('feedbackIcon').className = 'pancasila-icon' + (correct ? '' : ' wrong');
+  el('feedbackText').textContent = correct ? '✔ BENAR!' : '✘ SALAH!';
+  el('feedbackText').className = 'feedback-text ' + (correct ? 'ok' : 'no');
+  el('feedbackSub').textContent = correct
+    ? 'Hebat! ' + explanation
+    : 'Jawaban salah. ' + explanation + ' Kamu harus mengulang kuis ini.';
+  el('feedbackBtn').textContent = correct ? 'Lanjut →' : 'Ulangi Kuis 🔁';
+  el('feedbackBtn').dataset.correct = correct ? '1' : '0';
+
+  flagWave = correct;
+  overlay.classList.add('show');
+  animStart = performance.now();
+  if (animId) cancelAnimationFrame(animId);
+  drawFlag();
+}
+
+function stopFlagAnimation() {
+  if (animId) { cancelAnimationFrame(animId); animId = null; }
+}
+
+function drawFlag() {
+  const w = canvas.width, h = canvas.height;
+  const t = (performance.now() - animStart) / 1000;
+
+  ctx.clearRect(0, 0, w, h);
+
+  const grad = ctx.createRadialGradient(w/2, h/2, 50, w/2, h/2, Math.max(w,h)/1.3);
+  if (flagWave) {
+    grad.addColorStop(0, 'rgba(255,215,0,0.18)');
+  } else {
+    grad.addColorStop(0, 'rgba(231,76,60,0.18)');
+  }
+  grad.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
+
+  const fw = Math.min(w * 0.62, 340);
+  const fh = fw * 0.62;
+  const fx = (w - fw) / 2;
+  const fy = h / 2 - fh / 2 - 40;
+  const segs = 40;
+  const segW = fw / segs;
+
+  const amp = flagWave ? 16 : 0;
+  const speed = flagWave ? 3.2 : 0;
+
+  ctx.fillStyle = '#8b5a2b';
+  ctx.fillRect(fx - 6, fy - 6, 6, fh + 60);
+  ctx.beginPath();
+  ctx.arc(fx - 3, fy - 10, 7, 0, Math.PI * 2);
+  ctx.fillStyle = '#ffd700';
+  ctx.fill();
+
+  for (let i = 0; i < segs; i++) {
+    const x0 = fx + i * segW;
+    const wave1 = Math.sin(t * speed + i * 0.4) * amp;
+    const wave2 = Math.sin(t * speed + (i+1) * 0.4) * amp;
+    const x1 = x0;
+    const x2 = x0 + segW + 0.5;
+
+    ctx.beginPath();
+    ctx.moveTo(x1, fy + wave1);
+    ctx.lineTo(x2, fy + wave2);
+    ctx.lineTo(x2, fy + fh/2 + wave2);
+    ctx.lineTo(x1, fy + fh/2 + wave1);
+    ctx.closePath();
+    ctx.fillStyle = '#e60000';
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(x1, fy + fh/2 + wave1);
+    ctx.lineTo(x2, fy + fh/2 + wave2);
+    ctx.lineTo(x2, fy + fh + wave2);
+    ctx.lineTo(x1, fy + fh + wave1);
+    ctx.closePath();
+    ctx.fillStyle = '#ffffff';
+    ctx.fill();
+  }
+
+  if (!flagWave) {
+    ctx.strokeStyle = 'rgba(200,0,0,0.85)';
+    ctx.lineWidth = 14;
+    ctx.lineCap = 'round';
+    const cx = fx + fw/2, cy = fy + fh/2;
+    const s = fw * 0.28;
+    ctx.beginPath();
+    ctx.moveTo(cx - s, cy - s);
+    ctx.lineTo(cx + s, cy + s);
+    ctx.moveTo(cx + s, cy - s);
+    ctx.lineTo(cx - s, cy + s);
+    ctx.stroke();
+  }
+
+  animId = requestAnimationFrame(drawFlag);
+}
+
+/* ============================================================
+   HANDLE FEEDBACK NEXT
+   ============================================================ */
+el('feedbackBtn').addEventListener('click', handleFeedbackNext);
+function handleFeedbackNext() {
+  const correct = el('feedbackBtn').dataset.correct === '1';
+  overlay.classList.remove('show');
+  stopFlagAnimation();
+
+  if (!correct) {
+    startQuiz(state.currentLevel);
+    showToast('🔁 Ulangi kuis dari awal!');
+    return;
+  }
+
+  state.currentQ++;
+  const m = MATERI[state.currentLevel];
+  if (state.currentQ < m.soal.length) {
+    renderQuestion();
+  } else {
+    finishLevel();
+  }
+}
+
+/* ============================================================
+   FINISH LEVEL -> REWARD BADGE
+   ============================================================ */
+function finishLevel() {
+  const lv = state.currentLevel;
+  const firstTime = !state.completed[lv];
+  state.completed[lv] = true;
+
+  if (firstTime) {
+    state.badges = Math.min(TOTAL_BADGE, state.badges + 1);
+  }
+  if (lv + 1 > state.unlockedLevel && lv + 1 <= TOTAL_BADGE) {
+    state.unlockedLevel = lv + 1;
+  }
+  saveState();
+
+  el('rewardBadgeIcon').textContent = firstTime ? '🛡️' : '🏅';
+  el('rewardTitle').textContent = firstTime ? 'BADGE BARU!' : 'Sudah Selesai!';
+  el('rewardText').textContent = firstTime
+    ? `Kamu berhasil menggambar Pancasila utuh untuk ${MATERI[lv].bab} - ${MATERI[lv].nama}. Pertahankan!`
+    : `Kamu mengulang ${MATERI[lv].bab} dengan baik. Badge sudah kamu miliki.`;
+  el('badgeCountText').textContent = `Badge Pancasila: ${state.badges}/${TOTAL_BADGE}`;
+  showScreen('reward');
+  showToast(firstTime ? '🛡️ Badge Pancasila +1!' : '✅ Level selesai!');
+}
+
+el('btnRewardNext').addEventListener('click', () => {
+  if (state.currentLevel < 3) {
+    state.currentSemester = 1;
+  } else {
+    state.currentSemester = 2;
+  }
+  showScreen('level');
+});
+
+/* ============================================================
+   BADGE PANEL
+   ============================================================ */
+function renderBadgePanel() {
+  const list = el('badgeList');
+  list.innerHTML = '';
+  for (let i = 1; i <= TOTAL_BADGE; i++) {
+    const d = document.createElement('div');
+    d.className = 'mini-badge' + (state.completed[i] ? '' : ' empty');
+    d.textContent = state.completed[i] ? '🛡️' : i;
+    d.title = MATERI[i].bab + ' - ' + MATERI[i].nama;
+    list.appendChild(d);
+  }
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function showToast(msg) {
+  const t = el('toast');
+  t.textContent = msg;
+  t.classList.remove('show');
+  void t.offsetWidth;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+loadState();
+showScreen('semester');
+resizeCanvas();
+</script>
+</body>
+</html>
